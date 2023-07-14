@@ -1,10 +1,11 @@
+const PUBLIC_KEY = process.env.PUBLIC_KEY
 async function main() {
-    const MyNFT = await ethers.getContractFactory("MyNFT")
+    const EAvatar = await ethers.getContractFactory("EAvatar")
   
     // Start deployment, returning a promise that resolves to a contract object
-    const myNFT = await MyNFT.deploy()
-    await myNFT.deployed()
-    console.log("Contract deployed to address:", myNFT.address)
+    const eAvatar = await EAvatar.deploy(PUBLIC_KEY)
+    await eAvatar.deployed()
+    console.log("Contract deployed to address:", eAvatar.address)
   }
   
   main()

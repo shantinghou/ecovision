@@ -1,14 +1,10 @@
 //get data by nftId list
 require("dotenv").config()
 const { ethers } = require("hardhat");
-const API_URL = process.env.API_URL
 const PUBLIC_KEY = process.env.PUBLIC_KEY
 
-const { createAlchemyWeb3 } = require("@alch/alchemy-web3")
-const web3 = createAlchemyWeb3(API_URL)
-
 // const contract = require("../artifacts/contracts/MyNFT.sol/MyNFT.json")
-const contractAddress = "0x853B1a17F4009C707d435A6E6Ef24978589D5FE7"
+const contractAddress = "0x174f85bB05f5E974bBC15fA87EC75c400Cc81f9B"
 
 async function getMetadata(tokenId){
     // const contract = new web3.eth.Contract(abiJson, contractAddress);
