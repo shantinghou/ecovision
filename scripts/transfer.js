@@ -25,7 +25,13 @@ async function main(){
     console.log(`${NFT1Spender} has the approval to spend ${symbol}#$1\n`);
 
     // Calling the safeTransferFrom() using the contractOwner instance
-    await eAvatar["safeTransferFrom(address,address,uint256)"](collector, receiver, "1");
+    await eAvatar[
+        "safeTransferFrom(address,address,uint256)"
+      ](collector, receiver, "1", {
+        gasLimit: 100000,
+        
+        nonce: undefined,
+      });
     newOwner = await eAvatar.ownerOf("1");
     console.log(`Owner of ${symbol}#1: ${newOwner}\n`);
 
