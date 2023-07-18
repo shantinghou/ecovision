@@ -5,10 +5,11 @@ const PUBLIC_KEY = process.env.PUBLIC_KEY
 
 // const contract = require("../artifacts/contracts/MyNFT.sol/MyNFT.json")
 const contractAddress = "0x174f85bB05f5E974bBC15fA87EC75c400Cc81f9B"
+const receiver = "0xfF650AD783D278994eaa379A70C3958b79A1044c"
 
 async function getMetadata(tokenId){
     // const contract = new web3.eth.Contract(abiJson, contractAddress);
-    const contract = await ethers.getContractAt('MyNFT', contractAddress);
+    const contract = await ethers.getContractAt('EAvatar', contractAddress);
     
     // const contract = new web3.eth.Contract("abiJson", contractAddress);
     const tokenURI = await contract.tokenURI(tokenId);
@@ -17,11 +18,11 @@ async function getMetadata(tokenId){
     const metadata = await response.json();
     console.log(metadata)
 
-    let contractOwnerBalances = await contract.balanceOf(PUBLIC_KEY);
-    console.log(contractOwnerBalances);
-    // let ids = await contract.getTokenIdsFromContract (contractAddress, wallet, contractOwnerBalances)
-    // console.log(ids)
-    // return ids;
-    return;
+    let contractOwnerBalances = await contract.balanceOf(receiver);
+    console.log("balance - " + contractOwnerBalances);
+    console.log("get ids")
+    let ids = await contract.ownerCollection (receiver)
+    console.log(ids)
+    return ids;
 }
 getMetadata ("1");

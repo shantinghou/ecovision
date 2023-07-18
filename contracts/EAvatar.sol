@@ -144,6 +144,9 @@ contract EAvatar is ERC721URIStorage, Ownable {
             price
         );
     }
+    function getMetadata(uint tokenId) public view returns(EMetadata memory item){
+        return idToMetadata[tokenId];
+    }
     //get tokenIds of owner
     function ownerCollection(address owner) public view returns(uint[] memory ids){
         return ownerIds[owner];
@@ -164,15 +167,14 @@ contract EAvatar is ERC721URIStorage, Ownable {
     event NftBought(address from, address to, uint256 _amount);
 
     //transfer 
-    function transferNFT(address payable from, address to, uint _amount, uint256 tokenId) public payable{
+    function transferNFT(address payable from, address payable to, uint _amount, uint256 tokenId) public payable{
        //require _to to pay _from / contract
         // require(msg.value == _amount, 'Incorrect value');
 
         safeTransferFrom(from, to, tokenId);
         // update - not for sale anymore
-        payable(from).transfer(msg.value); // send the ETH to the seller
+        payable(to).transfer(_amount); // send the ETH to the seller
 
         emit NftBought(from, msg.sender, msg.value);
     }
-
 }
