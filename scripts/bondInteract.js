@@ -20,6 +20,12 @@ async function main() {
     const issuer = await eAvatar.getIssuer();
     console.log("bond issuer: " + issuer);
 
+    const interestPayment = await bunny.interestPaymentAmount();
+    console.log("bond interest payment: " + interestPayment);
+
+    const accruedInterest = await bunny.interestPaymentAmount();
+    console.log("accrued interest:" + accruedInterest);
+
     const isavailable = await eAvatar.availableNFTs();
     console.log("Available: " + isavailable);
 

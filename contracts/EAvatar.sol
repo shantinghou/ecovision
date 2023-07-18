@@ -53,9 +53,32 @@ contract EAvatar is ERC721URIStorage, Ownable {
         return Bond.bondIssuer;
     }
 
+        //check if bond has reached maturity
+    function isBondMatured() public view returns (bool) {
+    return block.timestamp >= Bond.maturityDate;
+    }
+
     //get interest amount
     function interestPaymentAmount() public view returns (uint256 amount){
         //calculate interest amount
+        if (!isBondMatured()) {
+            return (Bond.faceValue * Bond.interestPaymentPercent) 
+            / (10**Bond.shift);
+        } else {
+            return 0;
+        }  
+    }
+
+    //get accrued interest amount
+    function calculateAccruedInterest() public view returns (uint256) {
+    if (!isBondMatured()) {
+        uint256 interestAmount = interestPaymentAmount();
+        uint256 periodsElapsed = (block.timestamp - Bond.maturityDate) / Bond.periodOfPayment;
+        uint256 accruedInterest = interestAmount * periodsElapsed;
+        return accruedInterest;
+        } else {
+        return 0;
+        }
     }
 
     //get if collection available for purchase
