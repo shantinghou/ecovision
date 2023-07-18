@@ -143,7 +143,7 @@ contract EAvatar is ERC721URIStorage, Ownable {
     //transfer 
     function transferNFT(address payable from, address to, uint _amount, uint256 tokenId) public payable{
        //require _to to pay _from / contract
-        require(msg.value == _amount, 'Incorrect value');
+        // require(msg.value == _amount, 'Incorrect value');
 
         safeTransferFrom(from, to, tokenId);
         // update - not for sale anymore
