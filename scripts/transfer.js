@@ -16,42 +16,26 @@ const receiver = "0xd08322911D373f642d7d18Be3C1B478D02eF15a2"
 async function main(){
     const eAvatar = await ethers.getContractAt('EAvatar', contractAddress);
     const symbol = await eAvatar.symbol();
-    console.log(`Transferring ${symbol}#1 from collector ${collector} to another collector ${receiver} using contractOwner wallet...`);
-    
-    // getApproved()
-    console.log(`Getting the account approved to spend ${symbol}#1...`);
-    let NFT1Spender = await eAvatar.getApproved("1");
-    console.log(`${NFT1Spender} has the approval to spend ${symbol}#$1\n`);
+    const oldOwner = await eAvatar.ownerOf("1");
+    console.log(`Owner of #1: ${oldOwner}`);
+    console.log(`Transferring ${symbol}#1 from collector ${oldOwner} to 
+    another collector ${PUBLIC_KEY_3} using contractOwner wallet...`);
 
-    const tx = await eAvatar.setApprovalForAll(contractAddress, true);
-    await tx.wait();
+    // Comment this segment out if the contract owner wants to send the NFT
+    console.log(`Approving contractOwner to spend collector ${symbol}#${1}...`);
+    // Creates a new instance of the contract connected to the collector
+    // Adjust which public key to use as needed
+    const receiverSigner = await ethers.getSigner(PUBLIC_KEY_2)
+    const collectorContract = eAvatar.connect(receiverSigner); 
+    await collectorContract.approve(PUBLIC_KEY, 1);
+    console.log(`contractOwner ${PUBLIC_KEY_3} has been approved to 
+    spend collector ${PUBLIC_KEY_2} ${symbol}#${1}\n`);
 
     // Calling the safeTransferFrom() using the contractOwner instance
-    oldOwner = await eAvatar.ownerOf("1");
-    console.log(`owner of #1 = ${oldOwner}`)
-    const transaction = await eAvatar[
-        "safeTransferFrom(address,address,uint256)"
-      ](oldOwner, receiver, "1", {
-        gasLimit: 100000,
-        gasPrice: 20000000,
-
-        nonce: undefined,
-      });
-    const t = await transaction
+    const transaction = await eAvatar["safeTransferFrom(address,address,uint256)"]
+    (PUBLIC_KEY_2, PUBLIC_KEY_3, "1",{gasLimit: 100000, gasPrice: 20000000, nonce: undefined,});
+    const t = await transaction;
     console.log(t);
-    newOwner = await eAvatar.ownerOf("1");
-    console.log(`Owner of ${symbol}#1: ${newOwner}\n`);
-
-    // const transaction = await eAvatar.transferNFT(collector, receiver, ethers.utils.parseUnits("0.001", "ether"), "1", {
-    //         gasLimit: 100000,
-    //         nonce: undefined,
-    //       })
-    // const tx = await transaction
-    // console.log(tx);
-    // newOwner = await eAvatar.ownerOf("1")
-    // console.log(`Owner of ${symbol}#1: ${newOwner}\n`);
-
-    
 
     
 }
