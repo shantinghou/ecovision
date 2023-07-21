@@ -17,36 +17,39 @@ contract EcoItems is ERC721URIStorage, Ownable {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
 
-    struct EItems {
-        address walletID;
-        string itemName;
-        uint256 HP_boost;
-        uint256 AP_boost;
-        uint256 supply;
+    struct EWeapons {
+        mapping(uint256 => string) itemTypes;
+        mapping(uint256 => uint8) speed;
+        mapping(uint256 => uint8) ap_boost;
+        mapping(uint256 => uint256) supply;
     }
 
-    EItems private Item;
-    constructor(address item_owner) ERC721("EcoItems", "EI") {
-        Item = EItems(item_owner, // Item issuer
-                        "Dior Sauvage Elixir", // Name
-                        10, // HP_Boost
-                        20, // AP_Boost
-                        1000 // Supply
-                    );
+    struct EPotions {
+        mapping(uint256 => string) itemTypes;
+        mapping(uint256 => string) ability; //ap, hp, or speed
+        mapping(uint256 => uint8) timeLimit;
+        mapping(uint256 => uint256) supply;
+    }
+
+    
+    EWeapons private Weapons;
+    EPotions private Potions;
+    constructor() ERC721("EcoItems", "EI") {
+        
     }
 
     //get Item info
-    function getItemInfo() public view returns (EItems memory item){
-        return Item;
+    function getItemInfo(uint256 itemId) public view returns (EItems memory item){
+        return itemIdToData[itemId];
     }
     //get HP Boost
-    function getHPBoost() public view returns (uint256 health_boost){
-        return Item.HP_boost;
+    function getHPBoost(uint256 itemId) public view returns (uint256 health_boost){
+        return itemIdToData[itemId].HP_boost;
     }
 
     //get AP Boost
-    function getAPBoost() public view returns (uint256 attack_boost){
-        return Item.AP_boost;
+    function getAPBoost(uint256 itemId) public view returns (uint256 attack_boost){
+        return itemIdToData[itemId].AP_boost;
     }
 
     //for metadata
@@ -61,6 +64,7 @@ contract EcoItems is ERC721URIStorage, Ownable {
         uint256 tokenId;
         uint256 mintedAt;
         uint256 listing_price;
+        EItems item;
         address ownerId;
     }
 
