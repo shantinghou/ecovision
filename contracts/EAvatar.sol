@@ -53,9 +53,38 @@ contract EAvatar is ERC721URIStorage, Ownable {
         return Bond.bondIssuer;
     }
 
-        //check if bond has reached maturity
+    //check if bond has reached maturity
     function isBondMatured() public view returns (bool) {
-    return block.timestamp >= Bond.maturityDate;
+        return block.timestamp >= Bond.maturityDate;
+    }
+
+    //get maturity amount
+    function bondMatureAmount() public view returns (uint256 amount){
+        return Bond.faceValue;
+    }
+
+    //for metadata
+    string public baseURI = "";
+    string public inactiveBaseURI = "";
+    
+    //check onlyOwner 
+    function setBaseURI(string memory newURI) public onlyOwner() {
+        baseURI = newURI;
+    }
+
+    function setInactiveBaseURI(string memory newURI) public onlyOwner() {
+        inactiveBaseURI = newURI;
+    }
+
+    //update character after maturity
+    function matureCharacters() external onlyOwner() {
+        require(isBondMatured());
+        setBaseURI(inactiveBaseURI);
+    }
+
+    //check if interest need to pay !!!!!
+    function isInterestTime() public view returns (bool) {
+        return (block.timestamp - Bond.issueDate) % Bond.periodOfPayment == 0;
     }
 
     //get interest amount
@@ -90,7 +119,9 @@ contract EAvatar is ERC721URIStorage, Ownable {
 
     //character data
     struct AvatarChar {
+        string name;
         string characterUrl;
+        
     }
     //nft metadata
     struct EMetadata {
@@ -152,22 +183,10 @@ contract EAvatar is ERC721URIStorage, Ownable {
         return ownerIds[owner];
     }
 
-
-    //for metadata
-    string private _baseUri;
-
-    function setBaseURI(string calldata baseUri) external onlyOwner() {
-        _baseUri = baseUri;
-    }
-
-    function _baseURI() internal view override returns (string memory) {
-        return _baseUri;
-    }
-
     event NftBought(address from, address to, uint256 _amount);
 
     //transfer 
-    function transferNFT(address payable from, address payable to, uint _amount, uint256 tokenId) public payable{
+    function buyNFT(address payable from, address payable to, uint _amount, uint256 tokenId) public payable{
        //require _to to pay _from / contract
         // require(msg.value == _amount, 'Incorrect value');
 
