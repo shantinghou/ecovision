@@ -24,40 +24,33 @@ async function mintNFT(tokenURI){
     'data': await nftContract.methods.mintNFT(PUBLIC_KEY, tokenURI).encodeABI()
   };
 
-  const signPromise = web3.eth.accounts.signTransaction(tx, PRIVATE_KEY)
-  signPromise.then((signedTx) => {
-      web3.eth.sendSignedTransaction(
-        signedTx.rawTransaction,
-        function (err, hash) {
-          if (!err) {
-            console.log(
-              "The hash of your transaction is: ",
-              hash,
-              "\nCheck Alchemy's Mempool to view the status of your transaction!"
-            )
-          } else {
-            console.log(
-              "Something went wrong when submitting your transaction:",
-              err
-            )
-          }
-        }
-      )
-    })
-    .catch((err) => {
-      console.log(" Promise failed:", err)
-    })
+  
+  const signPromise = await web3.eth.accounts.signTransaction(tx, PRIVATE_KEY)
+  if(signPromise){
+    return signPromise.transactionHash;
+  }
+  else{
+    return null
+  }
 }
-// mintNFT()
+function myLoop(i, minted){
+  setTimeout(function() {   //  call a 3s setTimeout when the loop is called
+    console.log('hello');   //  your code here
+    i++;                    //  increment the counter
+    if (i <= 4) {           //  if the counter < 10, call the loop function
+      add = mintNFT(i)
+      console.log(add)
+      minted.push(add)
+      myLoop(i, minted);             //  ..  again which will trigger another 
+    }                       //  ..  setTimeout()
+  }, 9000)
+  console.log(minted)
+  return minted
+}
 
 async function main(){
   let minted = []
-  const eAvatar = await ethers.getContractAt('EAvatar', CONTRACT_ADDRESS)
-  for(let i = 1; i <= 4; i++){
-    mintNFT(i)
-    minted.push(i.toString())
-  }
-  console.log(`minted ${minted}`)
+  console.log(myLoop(1, minted))
 }
 
 main()

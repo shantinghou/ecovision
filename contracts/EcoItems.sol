@@ -71,7 +71,7 @@ contract EcoItems is ERC721URIStorage, Ownable {
     mapping(uint256 => ItemMetadata) private itemIdToMetadata;
     mapping(address => uint256[]) private itemOwnerIds;
 
-    function mintNFT(address recipient, string memory tokenURI, uint256 price)
+    function mintItem(address recipient, string memory tokenURI, uint256 price)
         public onlyOwner
         returns (uint256)
     {
