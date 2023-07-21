@@ -12,6 +12,8 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 //enumerate
 import '@openzeppelin/contracts/token/ERC721/extensions/IERC721Enumerable.sol';
+//tostring
+import "@openzeppelin/contracts/utils/Strings.sol";
 
 contract EAvatar is ERC721URIStorage, Ownable {
     using Counters for Counters.Counter;
@@ -63,19 +65,6 @@ contract EAvatar is ERC721URIStorage, Ownable {
         return Bond.faceValue;
     }
 
-    //for metadata
-    string public baseURI = "";
-    string public inactiveBaseURI = "";
-    
-    //check onlyOwner 
-    function setBaseURI(string memory newURI) public onlyOwner() {
-        baseURI = newURI;
-    }
-
-    function setInactiveBaseURI(string memory newURI) public onlyOwner() {
-        inactiveBaseURI = newURI;
-    }
-
     //update character after maturity
     function matureCharacters() external onlyOwner() {
         require(isBondMatured());
@@ -120,8 +109,12 @@ contract EAvatar is ERC721URIStorage, Ownable {
     //character data
     struct AvatarChar {
         string name;
-        string characterUrl;
-        
+        string characterURI;
+        // string characterType; delt on Json
+        uint8 hp;
+        uint8 ap;
+        uint8 level;
+        //looks delt with on Json
     }
     //nft metadata
     struct EMetadata {
@@ -131,7 +124,7 @@ contract EAvatar is ERC721URIStorage, Ownable {
         // uint256 percentOwnership;
         // uint256 shift;
         uint256 listing_price;
-        // AvatarChar character;
+        AvatarChar character;
         address ownerId;
     }
 
@@ -141,9 +134,35 @@ contract EAvatar is ERC721URIStorage, Ownable {
     
     event nftItemCreated (uint256 tokenId, address owner, uint256 price);
 
-    //MINT NFT
+    //for metadata URI --------------------------------------------------------
+    string private baseURI = "QmVfWkyhFiMha7D5AddRP8FMT1yvZyGCZsR9pW1t81AXgm";
+    string private inactiveBaseURI = "";
+    string private charURI ="QmTk4sPoYymptkKNXpvSAWKT797G6vYJec2WECFXMmTEER";
+    string private inactiveCharURI = "";
+    
+    //onlyOwner can change - 
+    function setBaseURI(string memory newURI) public onlyOwner() {
+        baseURI = newURI;
+    }
+    function getBaseURI() public view returns (string memory){
+        return baseURI;
+    }
+    function setInactiveBaseURI(string memory newURI) public onlyOwner() {
+        inactiveBaseURI = newURI;
+    }
+    function setCharURI(string memory newURI) public onlyOwner() {
+        charURI = newURI;
+    }
+    function getCharURI() public view returns (string memory){
+        return charURI;
+    }
+    function setInactiveCharURI(string memory newURI) public onlyOwner() {
+        inactiveCharURI = newURI;
+    }
+
+    //MINT NFT-----------------------------------------------------------------
     //string memory tokenURI should resolve to a JSON document that describes the NFT's metadata.
-    function mintNFT(address recipient, string memory tokenURI, uint256 price)
+    function mintNFT(address recipient, uint256 price)
         public onlyOwner
         returns (uint256)
     {
@@ -153,18 +172,15 @@ contract EAvatar is ERC721URIStorage, Ownable {
         _tokenIds.increment();
 
         uint256 newItemId = _tokenIds.current();
-        _mint(recipient, newItemId);
-        _setTokenURI(newItemId, tokenURI);
+        _safeMint(recipient, newItemId);
         createNFTitem(newItemId, price, recipient);
 
         return newItemId;
     }
 
-    function createNFTitem(uint256 tokenId, uint256 price, address owner) private {
-        // require(price > 0, "Price must be at least 1 ether");
-
+    function createNFTitem(uint256 tokenId, uint256 price, address owner) internal {
         idToMetadata[tokenId] = EMetadata(
-            tokenId, block.timestamp, price, owner
+            tokenId, block.timestamp, price, generateNewCharacter(tokenId), owner
         );
 
         ownerIds[owner].push(tokenId);
@@ -175,6 +191,22 @@ contract EAvatar is ERC721URIStorage, Ownable {
             price
         );
     }
+
+    function generateNewCharacter(uint256 tokenId) internal view returns(AvatarChar memory newChar){
+        //set stats
+        return (AvatarChar(
+            "", string.concat(getCharURI(), Strings.toString(tokenId)), 
+            10, 10, 0
+        ));
+    }
+
+    //check if owner of token, and then change character name
+    function changeCharacterName(uint tokenId, address owner, string memory name) public view{
+        require(ownerOf(tokenId) == owner);
+        EMetadata memory data = getMetadata(tokenId);
+        data.character.name = name;
+    }
+
     function getMetadata(uint tokenId) public view returns(EMetadata memory item){
         return idToMetadata[tokenId];
     }
@@ -185,7 +217,7 @@ contract EAvatar is ERC721URIStorage, Ownable {
 
     event NftBought(address from, address to, uint256 _amount);
 
-    //transfer 
+    //marketplace ---------------------------------------------------------------
     function buyNFT(address payable from, address payable to, uint _amount, uint256 tokenId) public payable{
        //require _to to pay _from / contract
         // require(msg.value == _amount, 'Incorrect value');
