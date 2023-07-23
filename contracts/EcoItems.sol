@@ -17,100 +17,126 @@ contract EcoItems is ERC721URIStorage, Ownable {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
 
+    // For metadata
+    string public baseURI = "";
+
+    // Track total supply
+    uint256 private _totalSupply;
+
+    // Check onlyOwner
+    function setBaseURI(string memory newURI) public onlyOwner {
+        baseURI = newURI;
+    }
+
     struct EWeapons {
-        mapping(uint256 => string) itemTypes;
-        mapping(uint256 => uint8) speed;
-        mapping(uint256 => uint8) ap_boost;
-        mapping(uint256 => uint256) supply;
+        uint8 speed;
+        uint8 ap_boost;
     }
 
     struct EPotions {
-        mapping(uint256 => string) itemTypes;
-        mapping(uint256 => string) ability; //ap, hp, or speed
-        mapping(uint256 => uint8) timeLimit;
-        mapping(uint256 => uint256) supply;
+        uint8 hp_boost;
+        uint8 ap_boost;
+        uint8 speed;
+        uint8 timeLimit;
     }
 
-    
-    EWeapons private Weapons;
-    EPotions private Potions;
-    constructor() ERC721("EcoItems", "EI") {
-        
-    }
-
-    //get Item info
-    function getItemInfo(uint256 itemId) public view returns (EItems memory item){
-        return itemIdToData[itemId];
-    }
-    //get HP Boost
-    function getHPBoost(uint256 itemId) public view returns (uint256 health_boost){
-        return itemIdToData[itemId].HP_boost;
-    }
-
-    //get AP Boost
-    function getAPBoost(uint256 itemId) public view returns (uint256 attack_boost){
-        return itemIdToData[itemId].AP_boost;
-    }
-
-    //for metadata
-    string public baseURI = "";
-    //check onlyOwner 
-    function setBaseURI(string memory newURI) public onlyOwner() {
-        baseURI = newURI;
-    }
-    
+    enum ItemType { EWeapons, EPotions }
 
     struct ItemMetadata {
         uint256 tokenId;
         uint256 mintedAt;
         uint256 listing_price;
-        EItems item;
         address ownerId;
+        ItemType itemType;
+        bytes itemData;
     }
 
-    mapping(uint256 => ItemMetadata) private itemIdToMetadata;
-    mapping(address => uint256[]) private itemOwnerIds;
+    event EWeaponMinted(uint256 tokenId, address owner, uint8 speed, uint8 ap_boost);
+    event EPotionMinted(uint256 tokenId, address owner, uint8 hp_boost, uint8 ap_boost, uint8 speed, uint8 timeLimit);
 
-    function mintItem(address recipient, string memory tokenURI, uint256 price)
-        public onlyOwner
-        returns (uint256)
-    {
-        //check supply
-        require(_tokenIds.current() < Item.supply, "No more available nfts to purchase");
-    
+    // Each item can be either an EWeapon or EPotion
+    mapping(uint256 => ItemMetadata) public items;
+
+    constructor(string memory name, string memory symbol) ERC721("EcoItems", "EI") {
+        _totalSupply = 0;
+    }
+
+    // Public function to check total supply of items
+    function totalSupply() public view returns (uint256) {
+        return _totalSupply;
+    }
+
+    // Function to mint an EWeapon
+    function mintEWeaponItem(uint8 speed, uint8 ap_boost, string memory tokenURI) external onlyOwner {
         _tokenIds.increment();
-
         uint256 newItemId = _tokenIds.current();
-        _mint(recipient, newItemId);
-        _setTokenURI(newItemId, tokenURI);
-        createItem(newItemId, price, recipient);
 
-        return newItemId;
-    }
-
-    function createItem(uint256 tokenId, uint256 price, address owner) private {
-        // require(price > 0, "Price must be at least 1 ether");
-
-        itemIdToMetadata[tokenId] = ItemMetadata(
-            tokenId, block.timestamp, price, owner
+        bytes memory data = abi.encode(EWeapons(speed, ap_boost));
+        _mint(msg.sender, newItemId);
+        _setTokenURI(newItemId, tokenURI); 
+        items[newItemId] = ItemMetadata(
+            newItemId,
+            block.timestamp,
+            0, 
+            msg.sender,
+            ItemType.EWeapons,
+            data
         );
+        _totalSupply++;
 
-        itemOwnerIds[owner].push(tokenId);
+        emit EWeaponMinted(newItemId, msg.sender, speed, ap_boost);
+    }
 
-        emit nftItemCreated(
-            tokenId,
-            owner,
-            price
+    // Function to mint an EPotion
+    function mintEPotionItem(uint8 hp_boost, uint8 ap_boost, uint8 speed,  
+    uint8 timeLimit, string memory tokenURI) external onlyOwner {
+        _tokenIds.increment();
+        uint256 newItemId = _tokenIds.current();
+
+        bytes memory data = abi.encode(EPotions(hp_boost, ap_boost, speed, timeLimit));
+        _mint(msg.sender, newItemId);
+        _setTokenURI(newItemId, tokenURI); 
+        items[newItemId] = ItemMetadata(
+            newItemId,
+            block.timestamp,
+            0,
+            msg.sender,
+            ItemType.EPotions,
+            data
         );
+        _totalSupply++;
+
+        emit EPotionMinted(newItemId, msg.sender, hp_boost, ap_boost, speed, timeLimit);
     }
 
-    function getMetadata(uint tokenId) public view returns(ItemMetadata memory item){
-        return itemIdToMetadata[tokenId];
-    }
-    //get tokenIds of owner
-    function ownerCollection(address owner) public view returns(uint[] memory ids){
-        return itemOwnerIds[owner];
+    // Override the _transfer function to update the ownerId when a token is transferred
+    function _transfer(address from, address to, uint256 tokenId) internal override {
+        super._transfer(from, to, tokenId);
+        items[tokenId].ownerId = to;
     }
 
-    event nftItemCreated (uint256 tokenId, address owner, uint256 price);
+    // Helper function to decode EWeapons data from bytes
+    function decodeEWeapons(bytes memory data) internal pure returns (EWeapons memory) {
+        (uint8 speed, uint8 ap_boost) = abi.decode(data, (uint8, uint8));
+        return EWeapons(speed, ap_boost);
+    }
+
+    // Helper function to decode EWeapons data from bytes
+    function decodeEPotions(bytes memory data) internal pure returns (EPotions memory) {
+        (uint8 hp_boost, uint8 ap_boost, uint8 speed, uint8 timeLimit) = 
+        abi.decode(data, (uint8, uint8, uint8, uint8));
+        return EPotions(hp_boost, ap_boost, speed, timeLimit);
+    }
+
+    // Public function to fetch EWeapons data for an item
+    function getEWeaponsData(uint256 tokenId) public view returns (EWeapons memory) {
+        require(items[tokenId].itemType == ItemType.EWeapons, "Not an EWeapons item");
+        return decodeEWeapons(items[tokenId].itemData);
+    }
+
+    // Public function to fetch EPotions data for an item
+    function getEPotionsData(uint256 tokenId) public view returns (EPotions memory) {
+        require(items[tokenId].itemType == ItemType.EPotions, "Not an EPotions item");
+        return decodeEPotions(items[tokenId].itemData);
+    }
 }
