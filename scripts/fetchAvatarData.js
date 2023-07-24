@@ -1,8 +1,7 @@
-//get data by nftId list
 require("dotenv").config()
 const { ethers } = require("hardhat");
 const BASE_URI = process.env.BASE_URI
-const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS
+const CONTRACT_ADDRESS_EAVATAR = process.env.CONTRACT_ADDRESS_EAVATAR
 const PUBLIC_KEY = process.env.PUBLIC_KEY
 
 async function getMetadata(tokenId){
@@ -11,33 +10,35 @@ async function getMetadata(tokenId){
     return metadata
 }
 
-async function getAdressNfts(){
-    const contract = await ethers.getContractAt('EAvatar', CONTRACT_ADDRESS);
+async function getAdressNfts(owner){
+    const contract = await ethers.getContractAt('EAvatar', CONTRACT_ADDRESS_EAVATAR);
 
-    console.log("get ids")
-    let ids = await contract.ownerCollection (PUBLIC_KEY)
-    console.log(ids)
+    //get number of and tokenids of wallet
+    console.log("get ids of owner: "+owner)
+    let balance = await contract.balanceOf(owner)
+    let ids = await contract.ownerCollection (owner)
+    console.log("Wallet "+owner+" owns "+balance+" ids: "+ids)
     
+    //get metadata of each id
     let metadatas = []
+    let ipfs = []
     for (let i = 0; i < ids.length; i++){
         let metadata = await contract.getMetadata(ids[i]);
         metadatas.push(metadata);
+        
+        let ipfsData = await getMetadata(ids[i])
+        ipfs.push(ipfsData)
     }
+    console.log("get contract stored metadatas...")
     console.log(metadatas);
+    console.log("get ipfs stored metadatas...")
+    console.log(ipfs)
     
 }
 
 async function main(){
-    const contract = await ethers.getContractAt('EAvatar', CONTRACT_ADDRESS);
-    let ids = await contract.ownerCollection (PUBLIC_KEY)
-    // console.log("using json fetch...");
-    // jsonFetch = []
-    // for(let i = 1; i <= 4; i++){
-    //     jsonFetch.push(await getMetadata(i.toString()));
-    // }
-    // console.log(jsonFetch);
-    console.log("using contract storage");
-    getAdressNfts();
+    console.log('fetching data...')
+    getAdressNfts(PUBLIC_KEY);
 }
 
 main ();
