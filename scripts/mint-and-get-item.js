@@ -1,3 +1,13 @@
+/*
+Documentation:
+Purpose: Mint EcoItems and get their information
+Procedure:
+1. Make sure your contract is compiled and deployed
+2. Make sure .env is updated to your own wallet settings
+3. See below for more testing specification 
+4. Run the command node scripts/mint-and-get-item.js in your terminal and check
+your wallet address or contract address in the test net to see minting transactions
+*/
 require("dotenv").config()
 const { ethers } = require("hardhat");
 const API_URL = process.env.API_URL
