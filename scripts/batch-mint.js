@@ -1,3 +1,15 @@
+/*
+Documentation:
+Function: Minting multiple NFTs to one address
+Procedure:
+1. Make sure your contract is compiled and deployed
+2. Make sure .env is updated to your own wallet settings and contract address
+3. You can change the value of ownerAddress and numToMint as you see fit
+4. Update the starting index of the loop for batch minting based on how many NFTs
+you have already minted for that collection
+5. Run the command node scripts/batch-mint.js in your terminal and check for the
+transactions under the contract address or your wallet address in the Sepolia test net
+*/
 require("dotenv").config();
 const { ethers } = require("hardhat");
 

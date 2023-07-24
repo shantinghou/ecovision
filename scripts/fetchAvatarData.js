@@ -1,3 +1,12 @@
+/*
+Documentation: 
+Function: Get information about EAvatars
+Procedure:
+1. Make sure your contract is compiled and deployed and NFTs are mintedx
+2. Make sure .env is updated to your own wallet settings and contract address
+3. Make sure you are getting information about the right contract
+4. Run the command node scripts/fetchAvatarData.js in your terminal
+*/
 require("dotenv").config()
 const { ethers } = require("hardhat");
 const BASE_URI = process.env.BASE_URI
@@ -11,6 +20,7 @@ async function getMetadata(tokenId){
 }
 
 async function getAdressNfts(owner){
+    // Adjust contract name as needed
     const contract = await ethers.getContractAt('EAvatar', CONTRACT_ADDRESS_EAVATAR);
 
     //get number of and tokenids of wallet
