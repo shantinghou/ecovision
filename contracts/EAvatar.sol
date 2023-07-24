@@ -88,13 +88,14 @@ contract EAvatar is ERC721URIStorage, Ownable {
 
     //get accrued interest amount
     function calculateAccruedInterest() public view returns (uint256) {
-    if (!isBondMatured()) {
-        uint256 interestAmount = interestPaymentAmount();
-        uint256 periodsElapsed = (block.timestamp - Bond.maturityDate) / Bond.periodOfPayment;
-        uint256 accruedInterest = interestAmount * periodsElapsed;
-        return accruedInterest;
-        } else {
-        return 0;
+        if (!isBondMatured()) {
+            uint256 interestAmount = interestPaymentAmount();
+            uint256 periodsElapsed = (block.timestamp - Bond.issueDate) / Bond.periodOfPayment;
+            uint256 accruedInterest = interestAmount * periodsElapsed;
+            return accruedInterest;
+        } 
+        else {
+            return 0;
         }
     }
 
@@ -165,7 +166,7 @@ contract EAvatar is ERC721URIStorage, Ownable {
         returns (uint256)
     {
         //check supply
-        require(price > Bond.faceValue);
+        require(price >= Bond.faceValue);
         require(_tokenIds.current() < Bond.supply, "No more available nfts to purchase");
     
         _tokenIds.increment();
