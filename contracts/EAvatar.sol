@@ -16,9 +16,8 @@ import '@openzeppelin/contracts/token/ERC721/extensions/IERC721Enumerable.sol';
 import "@openzeppelin/contracts/utils/Strings.sol";
 
 contract EAvatar is ERC721URIStorage, Ownable {
-    // using Counters for Counters.Counter;
-    // Counters.Counter private _tokenIds;
-    // Counters.Counter private _itemsSold;
+    using Counters for Counters.Counter;
+    Counters.Counter private _tokenIds;
 
     //NFT bond------------------------------------------------------------
     struct EBond {
@@ -110,19 +109,15 @@ contract EAvatar is ERC721URIStorage, Ownable {
     struct AvatarChar {
         string name;
         string characterURI;
-        // string characterType; delt on Json
         uint8 hp;
         uint8 ap;
         uint8 level;
-        //looks delt with on Json
     }
     //nft metadata
     struct EMetadata {
         uint256 tokenId;
-        // string name;
+        string name;
         uint256 mintedAt;
-        // uint256 percentOwnership;
-        // uint256 shift;
         uint256 listing_price;
         AvatarChar character;
         address ownerId;
@@ -140,7 +135,7 @@ contract EAvatar is ERC721URIStorage, Ownable {
     string private charURI ="QmTk4sPoYymptkKNXpvSAWKT797G6vYJec2WECFXMmTEER";
     string private inactiveCharURI = "";
     
-    //onlyOwner can change - 
+    //onlyOwner can change 
     function setBaseURI(string memory newURI) public onlyOwner() {
         baseURI = newURI;
     }
@@ -160,22 +155,22 @@ contract EAvatar is ERC721URIStorage, Ownable {
         inactiveCharURI = newURI;
     }
 
-    uint256 private tokenIds = 0;
     function getLatestId () public view returns (uint256){
-        return tokenIds;
+        return _tokenIds.current();
     }
     //MINT NFT-----------------------------------------------------------------
     //string memory tokenURI should resolve to a JSON document that describes the NFT's metadata.
-    function mintNFT(address recipient, uint256 price, uint256 tokenId)
+    function mintNFT(address recipient, uint256 price)
         public onlyOwner
         returns (uint256)
     {
         //check supply
-        require(tokenIds < Bond.supply, "No more available nfts to purchase");
-        // require(tokenId == tokenIds)
+        require(price > Bond.faceValue);
+        require(_tokenIds.current() < Bond.supply, "No more available nfts to purchase");
     
-        tokenIds += 1;
+        _tokenIds.increment();
 
+        uint256 tokenId = _tokenIds.current();
         _safeMint(recipient, tokenId);
         createNFTitem(tokenId, price, recipient);
 
@@ -184,7 +179,12 @@ contract EAvatar is ERC721URIStorage, Ownable {
 
     function createNFTitem(uint256 tokenId, uint256 price, address owner) internal {
         idToMetadata[tokenId] = EMetadata(
-            tokenId, block.timestamp, price, generateNewCharacter(tokenId), owner
+            tokenId, 
+            "", 
+            block.timestamp, 
+            price, 
+            generateNewCharacter(tokenId), 
+            owner
         );
 
         ownerIds[owner].push(tokenId);
@@ -197,10 +197,13 @@ contract EAvatar is ERC721URIStorage, Ownable {
     }
 
     function generateNewCharacter(uint256 tokenId) internal view returns(AvatarChar memory newChar){
-        //set stats
+        //set basic stats
         return (AvatarChar(
-            "", string.concat(getCharURI(), Strings.toString(tokenId)), 
-            10, 10, 0
+            "", 
+            string.concat(getCharURI(), Strings.toString(tokenId)), 
+            10, 
+            10, 
+            0
         ));
     }
 
@@ -217,19 +220,5 @@ contract EAvatar is ERC721URIStorage, Ownable {
     //get tokenIds of owner
     function ownerCollection(address owner) public view returns(uint[] memory ids){
         return ownerIds[owner];
-    }
-
-    event NftBought(address from, address to, uint256 _amount);
-
-    //marketplace ---------------------------------------------------------------
-    function buyNFT(address payable from, address payable to, uint _amount, uint256 tokenId) public payable{
-       //require _to to pay _from / contract
-        // require(msg.value == _amount, 'Incorrect value');
-
-        safeTransferFrom(from, to, tokenId);
-        // update - not for sale anymore
-        payable(to).transfer(_amount); // send the ETH to the seller
-
-        emit NftBought(from, msg.sender, msg.value);
     }
 }
