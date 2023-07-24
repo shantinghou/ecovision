@@ -8,21 +8,16 @@ Procedure:
 4. Run the command node scripts/bondInteract.js in your terminal and check for the bond information
 */
 const { ethers } = require("hardhat");
-// interact.js
-require("dotenv").config()
-const API_URL = process.env.API_URL
 
 // For Hardhat 
 const { createAlchemyWeb3 } = require("@alch/alchemy-web3")
 const web3 = createAlchemyWeb3(API_URL)
 
-// Adjust contract address here
 const contract = require("../artifacts/contracts/EAvatar.sol/EAvatar.json")
 const contractAddress = "0x174f85bB05f5E974bBC15fA87EC75c400Cc81f9B"
 
 // read the init message from our smart contract
 async function main() {
-    // Adjust contract name as needed
     const eAvatar = await ethers.getContractAt('EAvatar', contractAddress);
 
     const info = await eAvatar.getBondInfo();
@@ -31,10 +26,19 @@ async function main() {
     const issuer = await eAvatar.getIssuer();
     console.log("bond issuer: " + issuer);
 
+    const isMatured = await eAvatar.isBondMatured();
+    console.log("bond matured: " + isMatured);
+
+    const matureAmount = await eAvatar.bondMatureAmount();
+    console.log("bond mature amount: " + matureAmount);
+
+    const isInterestTime = await eAvatar.isInterestTime();
+    console.log("time to pay interest: " + isInterestTime);
+
     const interestPayment = await eAvatar.interestPaymentAmount();
     console.log("bond interest payment: " + interestPayment);
 
-    const accruedInterest = await eAvatar.interestPaymentAmount();
+    const accruedInterest = await eAvatar.calculateAccruedInterest();
     console.log("accrued interest:" + accruedInterest);
 
     const isavailable = await eAvatar.availableNFTs();

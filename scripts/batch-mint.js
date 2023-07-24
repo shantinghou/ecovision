@@ -16,26 +16,31 @@ const { ethers } = require("hardhat");
 const API_URL = process.env.API_URL;
 const PUBLIC_KEY = process.env.PUBLIC_KEY;
 const PRIVATE_KEY = process.env.PRIVATE_KEY;
-const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS
+const CONTRACT_ADDRESS_EAVATAR = process.env.CONTRACT_ADDRESS_EAVATAR
+const CONTRACT_ADDRESS_ECOITEM = process.env.CONTRACT_ADDRESS_ECOITEM
 
-// Adjust as needed
-contract = require("../artifacts/contracts/EAvatar.sol/EAvatar.json")
+const eAvatarContract = require("../artifacts/contracts/EAvatar.sol/EAvatar.json")
 
-async function batchMintNFT(ownerAddress, contractAddress, numToMint) {
+async function batchMintEAvatar(ownerAddress, contractAddress, numToMint) {
   const provider = new ethers.providers.JsonRpcProvider(API_URL);
   const wallet = new ethers.Wallet(PRIVATE_KEY, provider);
+  const avatarContract = new ethers.Contract(contractAddress, eAvatarContract.abi, wallet);
 
-  const ecoContract = new ethers.Contract(contractAddress, contract.abi, wallet);
-    // Adjust starting index of the loop accordingly
-  for (let i = 2; i < numToMint; i++) {
-    const price = 1; 
-    await ecoContract.mintNFT(ownerAddress, price, i);
+  const minted = []
+  for (let i = 1; i < numToMint; i++) {
+    const price = 100000; 
+    await avatarContract.mintNFT(ownerAddress, price);
+    minted.push(i)
   }
+  console.log(minted);
 }
-// To change here:
-const ownerAddress = PUBLIC_KEY; 
-const numToMint = 5; 
 
-batchMintNFT(ownerAddress, CONTRACT_ADDRESS, numToMint)
-  .then(() => console.log("Batch minting completed."))
-  .catch((error) => console.error("Error during batch minting:", error));
+async function main(){
+  const ownerAddress = PUBLIC_KEY; 
+  const numToMint = 5; 
+  batchMintEAvatar(ownerAddress, CONTRACT_ADDRESS_EAVATAR, numToMint)
+    .then(() => console.log("Batch minting completed."))
+    .catch((error) => console.error("Error during batch minting:", error));
+}
+
+main()
