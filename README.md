@@ -6,5 +6,14 @@ To use the Green Bond Game Character NFT, game developers can purchase it on a c
 # Contracts
 E-Avatar Contract - Game character NFTs with portion ownership of the E-Avatar green bond<br />
 EcoItem Contract - in-game items that are tradable and work to help game characters in the game
+# Scripts
+1. Run deploy.js to deploy the EAvatar contract <br />
+2. Run batch-mint.js to mint EAvatar NFTs <br />
+3. Run fetchAvatarData.js to get the EAvatar NFTs' metadata <br />
+4. Run bondInteract.js to get the bond information <br />
+5. Run deploy.js to deploy the EcoItems contract <br />
+6. Run mint-and-get-item.js to mint EcoItems NFTs and get the items' information <br />
+7. Run fetchItemData.js to get the EAvatar NFTs' metadata <br />
+8. Run transfer.js to transfer EAvatar or EcoItems NFTs
 # Conclusion
 The Green Bond Game Character NFT provides an innovative way to promote environmentally friendly initiatives through the use of gamification. By incorporating a green bond game character into a game, players can be incentivized to support sustainable development and learn about environmentally friendly practices. The Green Bond Game Character NFT is also a unique and valuable collectible that can be owned and traded by game developers and players alike.
