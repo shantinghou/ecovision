@@ -700,8 +700,8 @@
       ]
     },
     "/Users/shanting/Desktop/astri/myNft/contracts/EAvatar.sol": {
-      "lastModificationDate": 1689910051350,
-      "contentHash": "96ba004d832ffd3310ff452d0ded82d1",
+      "lastModificationDate": 1690163515241,
+      "contentHash": "7a48a9fbf7cd3a606f6a07ecf0ecacb1",
       "sourceName": "contracts/EAvatar.sol",
       "solcConfig": {
         "version": "0.8.18",
@@ -739,6 +739,47 @@
       ],
       "artifacts": [
         "EAvatar"
+      ]
+    },
+    "/Users/shanting/Desktop/astri/myNft/contracts/EcoItems.sol": {
+      "lastModificationDate": 1690161900403,
+      "contentHash": "caa39700af4fd62eb2ba8ab75064a5ae",
+      "sourceName": "contracts/EcoItems.sol",
+      "solcConfig": {
+        "version": "0.8.18",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "@openzeppelin/contracts/token/ERC721/ERC721.sol",
+        "@openzeppelin/contracts/utils/Counters.sol",
+        "@openzeppelin/contracts/access/Ownable.sol",
+        "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol",
+        "@openzeppelin/contracts/token/ERC721/extensions/IERC721Enumerable.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.18"
+      ],
+      "artifacts": [
+        "EcoItems"
       ]
     }
   }

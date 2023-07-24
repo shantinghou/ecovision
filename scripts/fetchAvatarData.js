@@ -8,7 +8,7 @@ const PUBLIC_KEY = process.env.PUBLIC_KEY
 async function getMetadata(tokenId){
     const response = await fetch(" https://ipfs.io/ipfs/" + BASE_URI + "/" + tokenId+".json")
     const metadata = await response.json();
-    console.log(metadata)
+    return metadata
 }
 
 async function getAdressNfts(){
@@ -28,10 +28,14 @@ async function getAdressNfts(){
 }
 
 async function main(){
-    console.log("using json fetch...");
-    for(let i = 1; i <= 4; i++){
-        getMetadata(i.toString());
-    }
+    const contract = await ethers.getContractAt('EAvatar', CONTRACT_ADDRESS);
+    let ids = await contract.ownerCollection (PUBLIC_KEY)
+    // console.log("using json fetch...");
+    // jsonFetch = []
+    // for(let i = 1; i <= 4; i++){
+    //     jsonFetch.push(await getMetadata(i.toString()));
+    // }
+    // console.log(jsonFetch);
     console.log("using contract storage");
     getAdressNfts();
 }
