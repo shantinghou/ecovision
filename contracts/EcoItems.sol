@@ -57,7 +57,7 @@ contract EcoItems is ERC721URIStorage, Ownable {
     // Each item can be either an EWeapon or EPotion
     mapping(uint256 => ItemMetadata) public items;
 
-    constructor(string memory name, string memory symbol) ERC721("EcoItems", "EI") {
+    constructor() ERC721("EcoItems", "EI") {
         _totalSupply = 0;
     }
 

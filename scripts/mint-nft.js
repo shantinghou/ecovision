@@ -23,7 +23,6 @@ async function mintNFT(tokenURI){
     'gas': 500000,
     'data': await nftContract.methods.mintNFT(PUBLIC_KEY, tokenURI).encodeABI()
   };
-
   
   const signPromise = await web3.eth.accounts.signTransaction(tx, PRIVATE_KEY)
   if(signPromise){
@@ -33,24 +32,28 @@ async function mintNFT(tokenURI){
     return null
   }
 }
-function myLoop(i, minted){
-  setTimeout(function() {   //  call a 3s setTimeout when the loop is called
-    console.log('hello');   //  your code here
-    i++;                    //  increment the counter
-    if (i <= 4) {           //  if the counter < 10, call the loop function
-      add = mintNFT(i)
-      console.log(add)
-      minted.push(add)
-      myLoop(i, minted);             //  ..  again which will trigger another 
-    }                       //  ..  setTimeout()
-  }, 9000)
-  console.log(minted)
-  return minted
-}
+// function myLoop(i, minted){
+//   setTimeout(function() {   //  call a 3s setTimeout when the loop is called
+//     console.log('hello');   //  your code here
+//     i++;                    //  increment the counter
+//     if (i <= 4) {           //  if the counter < 10, call the loop function
+//       add = mintNFT(i)
+//       console.log(add)
+//       minted.push(add)
+//       myLoop(i, minted);             //  ..  again which will trigger another 
+//     }                       //  ..  setTimeout()
+//   }, 9000)
+//   console.log(minted)
+//   return minted
+// }
 
 async function main(){
+  const nftContract = await ethers.getContractAt('EAvatar', CONTRACT_ADDRESS);
   let minted = []
-  console.log(myLoop(1, minted))
+  for(let i = 0; i < 4; i++)
+    minted.append(mintNFT(i))
+  
+
 }
 
 main()
