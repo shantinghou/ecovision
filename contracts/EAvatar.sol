@@ -16,8 +16,8 @@ import '@openzeppelin/contracts/token/ERC721/extensions/IERC721Enumerable.sol';
 import "@openzeppelin/contracts/utils/Strings.sol";
 
 contract EAvatar is ERC721URIStorage, Ownable {
-    using Counters for Counters.Counter;
-    Counters.Counter private _tokenIds;
+    // using Counters for Counters.Counter;
+    // Counters.Counter private _tokenIds;
     // Counters.Counter private _itemsSold;
 
     //NFT bond------------------------------------------------------------
@@ -160,22 +160,26 @@ contract EAvatar is ERC721URIStorage, Ownable {
         inactiveCharURI = newURI;
     }
 
+    uint256 private tokenIds = 0;
+    function getLatestId () public view returns (uint256){
+        return tokenIds;
+    }
     //MINT NFT-----------------------------------------------------------------
     //string memory tokenURI should resolve to a JSON document that describes the NFT's metadata.
-    function mintNFT(address recipient, uint256 price)
+    function mintNFT(address recipient, uint256 price, uint256 tokenId)
         public onlyOwner
         returns (uint256)
     {
         //check supply
-        require(_tokenIds.current() < Bond.supply, "No more available nfts to purchase");
+        require(tokenIds < Bond.supply, "No more available nfts to purchase");
+        // require(tokenId == tokenIds)
     
-        _tokenIds.increment();
+        tokenIds += 1;
 
-        uint256 newItemId = _tokenIds.current();
-        _safeMint(recipient, newItemId);
-        createNFTitem(newItemId, price, recipient);
+        _safeMint(recipient, tokenId);
+        createNFTitem(tokenId, price, recipient);
 
-        return newItemId;
+        return tokenId;
     }
 
     function createNFTitem(uint256 tokenId, uint256 price, address owner) internal {
