@@ -51,30 +51,4 @@ async function mintNFT(i){
     })
 }
 
-// mintNFT(1);
-// async function main(){
-//   let minted = []
-//   for(let i = 0; i < 4; i++)
-//     minted.push(await mintNFT(i))
-//   console.log(minted)
-//   return minted
-// }
-
-// main()
-
-async function mint(tokenId) {
-  try {
-    const tx = await nftContract.methods.mintNFT(PUBLIC_KEY, 1, tokenId).send({ from: PUBLIC_KEY });
-    console.log(`Minted token ${tokenId} with transaction hash ${tx.transactionHash}`);
-  } catch (error) {
-    console.error(`Error minting token ${tokenId}: ${error}`);
-  }
-}
-
-// call the mint function in a loop
-async function mintNFTs() {
-  for (let i = 0; i < NUM_MINTS; i++) {
-    const tokenId = TOKEN_IDS[i];
-    await mint(tokenId);
-  }
-}
+mintNFT(1);
