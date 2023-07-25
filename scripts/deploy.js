@@ -9,6 +9,7 @@ address in your test net
 */
 const PUBLIC_KEY = process.env.PUBLIC_KEY
 async function main() {
+    //EAvatar Deployment ------------------------------------------------------
     const EAvatar = await ethers.getContractFactory("EAvatar")
   
     // Start deployment, returning a promise that resolves to a contract object

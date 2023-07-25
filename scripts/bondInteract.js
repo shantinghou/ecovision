@@ -8,17 +8,12 @@ Procedure:
 4. Run the command node scripts/bondInteract.js in your terminal and check for the bond information
 */
 const { ethers } = require("hardhat");
-
-// For Hardhat 
-const { createAlchemyWeb3 } = require("@alch/alchemy-web3")
-const web3 = createAlchemyWeb3(API_URL)
-
-const contract = require("../artifacts/contracts/EAvatar.sol/EAvatar.json")
-const contractAddress = "0x174f85bB05f5E974bBC15fA87EC75c400Cc81f9B"
+require("dotenv").config();
+const CONTRACT_ADDRESS_EAVATAR = process.env.CONTRACT_ADDRESS_EAVATAR
 
 // read the init message from our smart contract
 async function main() {
-    const eAvatar = await ethers.getContractAt('EAvatar', contractAddress);
+    const eAvatar = await ethers.getContractAt('EAvatar', CONTRACT_ADDRESS_EAVATAR);
 
     const info = await eAvatar.getBondInfo();
     console.log("bond info: " + info);
