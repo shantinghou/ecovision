@@ -1,14 +1,14 @@
 {
-    "tokenId": 4,
-    "name": "E-Avatar 4",
+    "tokenId": 3,
+    "name": "E-Avatar 3",
     "attributes": [
         {
             "trait_type": "EyeLeftC",
-            "value": "Black"
+            "value": "Green"
         },
         {
             "trait_type": "EyeLeftE",
-            "value": "Round"
+            "value": "Oval"
         },
         {
             "trait_type": "EyeRightC",
@@ -16,11 +16,11 @@
         },
         {
             "trait_type": "EyeRightE",
-            "value": "Round"
+            "value": "Oval"
         },
         {
             "trait_type": "Element",
-            "value": "Water"
+            "value": "Fire"
         },
         {
             "trait_type": "Type",

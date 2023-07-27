@@ -1,18 +1,18 @@
 {
-    "tokenId": 6,
-    "name": "E-Avatar 6",
+    "tokenId": 1,
+    "name": "E-Avatar 1",
     "attributes": [
         {
             "trait_type": "EyeLeftC",
-            "value": "Green"
+            "value": "Red"
         },
         {
             "trait_type": "EyeLeftE",
-            "value": "Oval"
+            "value": "Round"
         },
         {
             "trait_type": "EyeRightC",
-            "value": "Black"
+            "value": "Red"
         },
         {
             "trait_type": "EyeRightE",
@@ -20,7 +20,7 @@
         },
         {
             "trait_type": "Element",
-            "value": "Water"
+            "value": "Earth"
         },
         {
             "trait_type": "Type",
@@ -28,7 +28,7 @@
         },
         {
             "trait_type": "Blush",
-            "value": "Calm"
+            "value": "Original"
         }
     ]
 }

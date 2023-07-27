@@ -8,7 +8,7 @@
         },
         {
             "trait_type": "EyeLeftE",
-            "value": "Closed"
+            "value": "Oval"
         },
         {
             "trait_type": "EyeRightC",
@@ -20,7 +20,7 @@
         },
         {
             "trait_type": "Element",
-            "value": "Air"
+            "value": "Water"
         },
         {
             "trait_type": "Type",
@@ -28,7 +28,7 @@
         },
         {
             "trait_type": "Blush",
-            "value": "Original"
+            "value": "Calm"
         }
     ]
 }

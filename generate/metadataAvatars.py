@@ -3,7 +3,7 @@ import random
 import json
 import os
 
-f = open('./metadata/all-traits.json',) 
+f = open('./metadata-avatars/all-traits.json',) 
 data = json.load(f)
 
 # Changes this IMAGES_BASE_URL to yours 
@@ -31,6 +31,6 @@ for i in data:
     token["attributes"].append(getAttribute("Type", i["Type"]))
     token["attributes"].append(getAttribute("Blush", i["Blush"]))
 
-    with open('./metadata/' + str(token_id) + ".json", 'w') as outfile:
+    with open('./metadata-avatars/' + str(token_id) + ".json", 'w') as outfile:
         json.dump(token, outfile, indent=4)
 f.close()
