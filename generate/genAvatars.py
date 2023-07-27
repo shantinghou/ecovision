@@ -78,3 +78,36 @@ os.mkdir(f'./metadata')
 METADATA_FILE_NAME = './metadata/all-traits.json'; 
 with open(METADATA_FILE_NAME, 'w') as outfile:
     json.dump(all_images, outfile, indent=4)
+
+
+#### Generate Images
+from PIL import Image 
+
+#code below for when the images are created
+'''
+os.mkdir(f'./images')
+
+for item in all_images:
+    im1 = Image.open(f'../assets/images/character/body.png').convert('RGBA')
+    im2 = Image.open(f'../assets/images/character/{[item["Element"]]}.png').convert('RGBA')
+    im3 = Image.open(f'../assets/images/character/{[item["Type"]]}.png').convert('RGBA')
+    im4 = Image.open(f'../assets/images/character/{[item["EyeLeftC"] ]}.png').convert('RGBA')
+    im5 = Image.open(f'../assets/images/character/{[item["EyeLeftE"]]}.png').convert('RGBA')
+    im6 = Image.open(f'../assets/images/character/{[item["EyeRightC"]]}.png').convert('RGBA')
+    im7 = Image.open(f'../assets/images/character/{[item["EyeRightE"]]}.png').convert('RGBA')
+    im8 = Image.open(f'../assets/images/character/{[item["Blush"]]}.png').convert('RGBA')
+
+    #Create each composite
+    com1 = Image.alpha_composite(im1, im2)
+    com2 = Image.alpha_composite(com1, im3)
+    com3 = Image.alpha_composite(com2, im4)
+    com4 = Image.alpha_composite(com3, im5)
+    com5 = Image.alpha_composite(com4, im6)   
+    com6 = Image.alpha_composite(com5, im7)
+    comFinal = Image.alpha_composite(com6, im8)          
+
+    #Convert to RGB
+    rgb_im = com5.convert('RGB')
+    file_name = str(item["tokenId"]) + ".png"
+    rgb_im.save("./images/" + file_name)
+'''
