@@ -659,8 +659,8 @@
       ]
     },
     "/Users/shanting/Desktop/astri/myNft/contracts/EAvatar.sol": {
-      "lastModificationDate": 1690189099774,
-      "contentHash": "8cfcd502222c21a6697309b245d264df",
+      "lastModificationDate": 1690342525360,
+      "contentHash": "15397b9fc92a92050694c041e68e0cb7",
       "sourceName": "contracts/EAvatar.sol",
       "solcConfig": {
         "version": "0.8.18",

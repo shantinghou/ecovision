@@ -27,7 +27,7 @@ async function batchMintEAvatar(ownerAddress, contractAddress, numToMint) {
   const avatarContract = new ethers.Contract(contractAddress, eAvatarContract.abi, wallet);
 
   const minted = []
-  for (let i = 1; i < numToMint; i++) {
+  for (let i = 1; i < numToMint+1; i++) {
     const price = 100000; 
     await avatarContract.mintNFT(ownerAddress, price);
     minted.push(i)
@@ -37,7 +37,7 @@ async function batchMintEAvatar(ownerAddress, contractAddress, numToMint) {
 
 async function main(){
   const ownerAddress = PUBLIC_KEY; 
-  const numToMint = 5; 
+  const numToMint = 1; 
   batchMintEAvatar(ownerAddress, CONTRACT_ADDRESS_EAVATAR, numToMint)
     .then(() => console.log("Batch minting completed."))
     .catch((error) => console.error("Error during batch minting:", error));

@@ -14,7 +14,7 @@ const PUBLIC_KEY_2 = process.env.PUBLIC_KEY_2;
 const PUBLIC_KEY_3 = process.env.PUBLIC_KEY_3;
 
 // Adjust contract address as needed
-const contractAddress = "0xab927D39309e0279e361aF2005Ce2B28e0c637b4";
+const contractAddress = process.env.CONTRACT_ADDRESS_ECOITEM;
 
 async function getMetadata(tokenId){
     // Adjust contract name as needed

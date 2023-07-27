@@ -33,6 +33,9 @@ contract EAvatar is ERC721URIStorage, Ownable {
     }
 
     EBond private Bond;
+
+    mapping(uint256 => string) private charEvolvedURI;
+
     constructor(address bond_issuer) ERC721("EAvatar", "EA") {
         Bond = EBond(bond_issuer, "E-Bond One", 
                         block.timestamp, //issue date - set in deployment
@@ -43,6 +46,9 @@ contract EAvatar is ERC721URIStorage, Ownable {
                         2, //shift
                         1000 // supply
                     );
+        //character evolution
+        charEvolvedURI[0] = "QmSdycEjXZMP74AXkSPtHn4e78PhNL9AAaZiqepKPUB3Nc";
+        charEvolvedURI[1] = "QmVhWY5VXsJvpt8RQqc18yySHFcf6tZ5pqzVfN7p434xfq";
     }
 
     //get bond info
@@ -112,7 +118,8 @@ contract EAvatar is ERC721URIStorage, Ownable {
         string characterURI;
         uint8 hp;
         uint8 ap;
-        uint8 level;
+        uint8 level; //0...10...20...30
+        uint8 evolved; //0, 1, 2, 3...
     }
     //nft metadata
     struct EMetadata {
@@ -124,6 +131,8 @@ contract EAvatar is ERC721URIStorage, Ownable {
         address ownerId;
     }
 
+    //subject to change
+    uint8 private evolutions = 1;
     //store metadata of ALLLLLL nfts on collection
     mapping(uint256 => EMetadata) private idToMetadata;
     mapping(address => uint256[]) private ownerIds;
@@ -133,7 +142,7 @@ contract EAvatar is ERC721URIStorage, Ownable {
     //for metadata URI --------------------------------------------------------
     string private baseURI = "QmVfWkyhFiMha7D5AddRP8FMT1yvZyGCZsR9pW1t81AXgm";
     string private inactiveBaseURI = "";
-    string private charURI ="QmTk4sPoYymptkKNXpvSAWKT797G6vYJec2WECFXMmTEER";
+    string private charURI = charEvolvedURI[0];
     string private inactiveCharURI = "";
     
     //onlyOwner can change 
@@ -146,15 +155,18 @@ contract EAvatar is ERC721URIStorage, Ownable {
     function setInactiveBaseURI(string memory newURI) public onlyOwner() {
         inactiveBaseURI = newURI;
     }
-    function setCharURI(string memory newURI) public onlyOwner() {
-        charURI = newURI;
+    function changeCharURI(uint8 level, string memory newURI) public onlyOwner() {
+        charEvolvedURI[level] = newURI;
     }
-    function getCharURI() public view returns (string memory){
-        return charURI;
-    }
-    function setInactiveCharURI(string memory newURI) public onlyOwner() {
-        inactiveCharURI = newURI;
-    }
+    // function setCharURI(string memory newURI) public onlyOwner() {
+    //     charURI = newURI;
+    // }
+    // function getCharURI() public view returns (string memory){
+    //     return charURI;
+    // }
+    // function setInactiveCharURI(string memory newURI) public onlyOwner() {
+    //     inactiveCharURI = newURI;
+    // }
 
     function getLatestId () public view returns (uint256){
         return _tokenIds.current();
@@ -166,7 +178,7 @@ contract EAvatar is ERC721URIStorage, Ownable {
         returns (uint256)
     {
         //check supply
-        require(price >= Bond.faceValue);
+        require(price >= Bond.faceValue, "Price is too low for mint");
         require(_tokenIds.current() < Bond.supply, "No more available nfts to purchase");
     
         _tokenIds.increment();
@@ -201,13 +213,33 @@ contract EAvatar is ERC721URIStorage, Ownable {
         //set basic stats
         return (AvatarChar(
             "", 
-            string.concat(getCharURI(), Strings.toString(tokenId)), 
+            string.concat(charEvolvedURI[0], Strings.toString(tokenId)), 
             10, 
             10, 
+            0, 
             0
         ));
     }
+    // EVOLUTION ---------------------------------------------------------------
+    // Character Evolution
+    function evolveCharacter(uint256 tokenId, address owner) public view{
+        require(ownerOf(tokenId) == owner);
+        AvatarChar memory avatar = idToMetadata[tokenId].character;
+        if (avatar.level / 10 > avatar.evolved && avatar.evolved < evolutions){
+            avatar.evolved += 1;
+            //  _burn(tokenId);
+            // _safeMint(owner, tokenId);
+            avatar.characterURI = charEvolvedURI[avatar.evolved];
+        }
+    }
 
+    // check evolution state
+    function evolveState(uint256 tokenId) public view returns(uint8 evolve, string memory uri){
+        AvatarChar memory avatar = idToMetadata[tokenId].character;
+        return (avatar.evolved, avatar.characterURI);
+    }
+
+    // ADJUST METADATA ---------------------------------------------------------
     //check if owner of token, and then change character name
     function changeCharacterName(uint tokenId, address owner, string memory name) public view{
         require(ownerOf(tokenId) == owner);
@@ -215,11 +247,16 @@ contract EAvatar is ERC721URIStorage, Ownable {
         data.character.name = name;
     }
 
-    function getMetadata(uint tokenId) public view returns(EMetadata memory item){
+    function getMetadata(uint256 tokenId) public view returns(EMetadata memory item){
         return idToMetadata[tokenId];
     }
     //get tokenIds of owner
     function ownerCollection(address owner) public view returns(uint[] memory ids){
         return ownerIds[owner];
+    }
+    //testing
+    function changeLevel(uint256 tokenId, uint8 increase) public returns (uint8 newLevel){
+        idToMetadata[tokenId].character.level += increase;
+        return (idToMetadata[tokenId].character.level);
     }
 }
