@@ -1,0 +1,34 @@
+{
+    "tokenId": 7,
+    "name": "E-Avatar 7",
+    "attributes": [
+        {
+            "trait_type": "EyeLeftC",
+            "value": "Black"
+        },
+        {
+            "trait_type": "EyeLeftE",
+            "value": "Closed"
+        },
+        {
+            "trait_type": "EyeRightC",
+            "value": "Green"
+        },
+        {
+            "trait_type": "EyeRightE",
+            "value": "Oval"
+        },
+        {
+            "trait_type": "Element",
+            "value": "Fire"
+        },
+        {
+            "trait_type": "Type",
+            "value": "Fierce"
+        },
+        {
+            "trait_type": "Blush",
+            "value": "Original"
+        }
+    ]
+}

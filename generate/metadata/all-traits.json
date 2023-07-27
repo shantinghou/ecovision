@@ -1,0 +1,102 @@
+[
+    {
+        "EyeLeftC": "Blue",
+        "EyeLeftE": "Oval",
+        "EyeRightC": "Black",
+        "EyeRightE": "Oval",
+        "Element": "Earth",
+        "Type": "Fierce",
+        "Blush": "Calm",
+        "tokenId": 1
+    },
+    {
+        "EyeLeftC": "Black",
+        "EyeLeftE": "Closed",
+        "EyeRightC": "Black",
+        "EyeRightE": "Oval",
+        "Element": "Air",
+        "Type": "Original",
+        "Blush": "Original",
+        "tokenId": 2
+    },
+    {
+        "EyeLeftC": "Green",
+        "EyeLeftE": "Oval",
+        "EyeRightC": "Black",
+        "EyeRightE": "Closed",
+        "Element": "Water",
+        "Type": "Original",
+        "Blush": "Original",
+        "tokenId": 3
+    },
+    {
+        "EyeLeftC": "Black",
+        "EyeLeftE": "Round",
+        "EyeRightC": "Blue",
+        "EyeRightE": "Round",
+        "Element": "Water",
+        "Type": "Original",
+        "Blush": "Original",
+        "tokenId": 4
+    },
+    {
+        "EyeLeftC": "Green",
+        "EyeLeftE": "Oval",
+        "EyeRightC": "Black",
+        "EyeRightE": "Round",
+        "Element": "Earth",
+        "Type": "Original",
+        "Blush": "Fierce",
+        "tokenId": 5
+    },
+    {
+        "EyeLeftC": "Green",
+        "EyeLeftE": "Oval",
+        "EyeRightC": "Black",
+        "EyeRightE": "Oval",
+        "Element": "Water",
+        "Type": "Calm",
+        "Blush": "Calm",
+        "tokenId": 6
+    },
+    {
+        "EyeLeftC": "Black",
+        "EyeLeftE": "Closed",
+        "EyeRightC": "Green",
+        "EyeRightE": "Oval",
+        "Element": "Fire",
+        "Type": "Fierce",
+        "Blush": "Original",
+        "tokenId": 7
+    },
+    {
+        "EyeLeftC": "Black",
+        "EyeLeftE": "Round",
+        "EyeRightC": "Black",
+        "EyeRightE": "Oval",
+        "Element": "Earth",
+        "Type": "Original",
+        "Blush": "Calm",
+        "tokenId": 8
+    },
+    {
+        "EyeLeftC": "Green",
+        "EyeLeftE": "Oval",
+        "EyeRightC": "Green",
+        "EyeRightE": "Round",
+        "Element": "Water",
+        "Type": "Original",
+        "Blush": "Elegant",
+        "tokenId": 9
+    },
+    {
+        "EyeLeftC": "Black",
+        "EyeLeftE": "Oval",
+        "EyeRightC": "Black",
+        "EyeRightE": "Closed",
+        "Element": "Water",
+        "Type": "Original",
+        "Blush": "Elegant",
+        "tokenId": 10
+    }
+]
