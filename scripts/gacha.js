@@ -1,5 +1,5 @@
-let screen_width = 400;
-let screen_height = 300;
+let screen_width = 1000;
+let screen_height = 750;
 let section_color;
 let font_large;
 let font_small;
@@ -16,15 +16,12 @@ let last_epic_roll = 0;
 
 function setup() {
   createCanvas(screen_width, screen_height);
-  section_color = color(255, 165, 0); // Orange
-  font_large = loadFont('path/to/font.ttf');
-  font_small = loadFont('path/to/font.ttf');
-  textFont(font_small);
+  section_color = color(173, 216, 230); 
   textSize(36);
 }
 
 function draw() {
-  background(0);
+  clear();
 
   if (is_rolling) {
     // Calculate the elapsed time since the animation started
@@ -35,7 +32,7 @@ function draw() {
       // Increment the wheel angle to simulate rotation
       wheel_angle += wheel_speed;
       // Display the spinning wheel
-      drawWheel(width / 2, height / 2, 100, wheel_angle);
+      drawWheel(width / 2, height / 2, 250, wheel_angle);
     } else {
       // Animation is complete, show the final reward
       final_reward = gachaSpin();
@@ -44,19 +41,27 @@ function draw() {
       setTimeout(showFinalReward, 500);
     }
   } else {
-    // Display the "Click to Roll" message
-    fill(255);
-    text("Click to Roll", 120, 100);
+    fill(173, 216, 230);
+    stroke(0, 0, 0, 0);
+    textSize(36); 
+    textAlign(CENTER);  
+    text("Click to Roll", width / 2, height / 2);
     // Display the final reward
     if (final_reward) {
-      text("You got:", 150, 150);
-      text(final_reward, 100, 200);
+        fill(173, 216, 230);
+        stroke(0, 0, 0, 0);
+        textSize(36); 
+        textAlign(CENTER); 
+        text("You got:", 500, 150);
+        text(final_reward, 500, 200);
     }
   }
 
   // Display the counter for the last time an epic item appeared
-  fill(255);
-  text(`Last Epic Roll: ${last_epic_roll}/${rolls_until_pity}`, 10, 30);
+  stroke(0, 0, 0, 0);
+  textSize(18); 
+  fill(173, 216, 230);
+  text(`Last Epic Roll: ${last_epic_roll}/${rolls_until_pity}`, 100, 25);
 }
 
 function drawWheel(x, y, size, angle) {
