@@ -104,7 +104,7 @@ function gachaSpin() {
     // the corresponding reward is obtained.
     if (random_number < cumulative_probability) {
       // If the reward is an epic item, update the last_epic_roll counter
-      if (reward === "Epic Item") {
+      if (reward === "Epic Item" || reward === "Legendary Item") {
         last_epic_roll = 0;
       } else {
         // Increment the last_epic_roll counter if a non-epic item is rolled
