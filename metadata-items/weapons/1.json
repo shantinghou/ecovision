@@ -1,0 +1,22 @@
+{
+    "tokenId": 1,
+    "name": "EcoItems 1",
+    "attributes": [
+        {
+            "trait_type": "Type",
+            "value": "Sabre"
+        },
+        {
+            "trait_type": "HpBoost",
+            "value": "20"
+        },
+        {
+            "trait_type": "ApBoost",
+            "value": "None"
+        },
+        {
+            "trait_type": "SpeedBoost",
+            "value": "None"
+        }
+    ]
+}

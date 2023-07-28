@@ -1,0 +1,22 @@
+{
+    "tokenId": 5,
+    "name": "EcoItems 5",
+    "attributes": [
+        {
+            "trait_type": "Type",
+            "value": "Bow and Arrow"
+        },
+        {
+            "trait_type": "HpBoost",
+            "value": "50"
+        },
+        {
+            "trait_type": "ApBoost",
+            "value": "20"
+        },
+        {
+            "trait_type": "SpeedBoost",
+            "value": "None"
+        }
+    ]
+}

@@ -1,0 +1,22 @@
+{
+    "tokenId": 5,
+    "name": "EcoItems 5",
+    "attributes": [
+        {
+            "trait_type": "Type",
+            "value": "Cactus"
+        },
+        {
+            "trait_type": "HpBoost",
+            "value": "None"
+        },
+        {
+            "trait_type": "ApBoost",
+            "value": "None"
+        },
+        {
+            "trait_type": "SpeedBoost",
+            "value": "50"
+        }
+    ]
+}

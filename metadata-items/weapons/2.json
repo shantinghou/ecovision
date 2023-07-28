@@ -1,0 +1,22 @@
+{
+    "tokenId": 2,
+    "name": "EcoItems 2",
+    "attributes": [
+        {
+            "trait_type": "Type",
+            "value": "Scythe"
+        },
+        {
+            "trait_type": "HpBoost",
+            "value": "20"
+        },
+        {
+            "trait_type": "ApBoost",
+            "value": "None"
+        },
+        {
+            "trait_type": "SpeedBoost",
+            "value": "None"
+        }
+    ]
+}
