@@ -23,8 +23,8 @@ contract Evolve is ERC721URIStorage, Ownable {
     mapping(uint256 => uint8) private evolutionStage;
 
     constructor() ERC721("Evolve", "E") {
-        charEvolvedURI[0] = "QmUSD4Dki1LzUmfQhyG7pBDuGsBHavmNwzZAu115b7Tj5n";
-        charEvolvedURI[1] = "QmQLtcMTdWngE65HFAaMEouMVom5D7JDDrifV2zSvwBT4y";
+        charEvolvedURI[0] = "ipfs://QmThEVvi2Efq6RygDtsBH8KgZrvJMXaz6cxFK49SCWu71D";
+        charEvolvedURI[1] = "ipfs://QmYZWmLL1YTuSXtkj3K2vs3hQB8JhRRV3fakkExY34sK7B";
     }
 
     //MINT NFT-----------------------------------------------------------------
@@ -38,7 +38,6 @@ contract Evolve is ERC721URIStorage, Ownable {
         uint256 newItemId = _tokenIds.current();
         _mint(recipient, newItemId);
         _setTokenURI(newItemId, charEvolvedURI[0]);
-
         return newItemId;
     }
     
@@ -53,12 +52,7 @@ contract Evolve is ERC721URIStorage, Ownable {
         if (stage >= 1) { return;}
         uint8 newStage = stage + 1;
         string memory newURI = charEvolvedURI[newStage];
+        evolutionStage[tokenId] = newStage;
         _setTokenURI(tokenId, newURI);
-    }
-
-    // check evolution state
-    function evolveState(uint256 tokenId) public view returns(uint8 evolve, string memory uri){
-        AvatarChar memory avatar = idToMetadata[tokenId].character;
-        return (avatar.evolved, avatar.characterURI);
     }
 }
