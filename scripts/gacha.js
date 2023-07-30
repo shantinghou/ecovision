@@ -7,37 +7,32 @@ let is_rolling = false;
 let final_reward = null;
 let roll_start_time = 0;
 let wheel_angle = 0;
-let wheel_speed = 3; // Adjust this value to control the wheel spin speed (lower value for slower spin)
-
+let wheel_speed = 3; 
 // Pity system variables
 let roll_counter = 0;
-const rolls_until_pity = 9; // Number of rolls required to trigger the pity system
+const rolls_until_pity = 9; 
 let last_epic_roll = 0;
 
 function setup() {
   createCanvas(screen_width, screen_height);
   section_color = color(173, 216, 230); 
   textSize(36);
+  textFont('Amarante');
 }
 
 function draw() {
   clear();
 
   if (is_rolling) {
-    // Calculate the elapsed time since the animation started
     const elapsed_time = (millis() - roll_start_time) / 1000;
 
-    // Perform the gacha spin for 'spin_duration' seconds
-    if (elapsed_time < 3) { // Animation duration (3 seconds)
-      // Increment the wheel angle to simulate rotation
+    // Perform the gacha spin
+    if (elapsed_time < 3) { 
       wheel_angle += wheel_speed;
-      // Display the spinning wheel
       drawWheel(width / 2, height / 2, 250, wheel_angle);
     } else {
-      // Animation is complete, show the final reward
       final_reward = gachaSpin();
       is_rolling = false;
-      // A slight delay before showing the final reward (adjust this value for a longer or shorter delay)
       setTimeout(showFinalReward, 500);
     }
   } else {
@@ -61,7 +56,7 @@ function draw() {
   stroke(0, 0, 0, 0);
   textSize(18); 
   fill(173, 216, 230);
-  text(`Last Epic Roll: ${last_epic_roll}/${rolls_until_pity}`, 100, 25);
+  text(`Last Epic+ Roll: ${last_epic_roll}/${rolls_until_pity}`, 100, 25);
 }
 
 function drawWheel(x, y, size, angle) {
@@ -80,10 +75,10 @@ function drawWheel(x, y, size, angle) {
 function gachaSpin() {
   // List of rewards with their respective probabilities
   const rewards = [
-    ["Common Item", 0.6],    // 60% chance
-    ["Rare Item", 0.3],      // 30% chance
-    ["Epic Item", 0.09],     // 9% chance
-    ["Legendary Item", 0.01] // 1% chance
+    ["Common Item", 0.6],    
+    ["Rare Item", 0.3],     
+    ["Epic Item", 0.09],     
+    ["Legendary Item", 0.01] 
   ];
 
   // Increment the roll counter
@@ -108,7 +103,7 @@ function gachaSpin() {
     // If the random number falls within the cumulative probability range,
     // the corresponding reward is obtained.
     if (random_number < cumulative_probability) {
-      // If the reward is an epic item, update the last_epic_roll counter
+      // If the reward is an epic or legendary item, update the last_epic_roll counter
       if (reward === "Epic Item" || reward === "Legendary Item") {
         last_epic_roll = 0;
       } else {
@@ -119,8 +114,8 @@ function gachaSpin() {
     }
   }
 
-  // If the random number exceeds the cumulative probability range (should be very unlikely),
-  // return the last reward just to handle it gracefully.
+  // If the random number exceeds the cumulative probability range,
+  // return the last reward.
   return rewards[rewards.length - 1][0];
 }
 
