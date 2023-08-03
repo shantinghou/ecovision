@@ -47,8 +47,8 @@ async function main(){
     transfer(PUBLIC_KEY, PUBLIC_KEY_3, 1, eAvatar);
 
     //transfer ecoItem
-    const ecoItem = await ethers.getContractAt('EcoItems', CONTRACT_ADDRESS_ECOITEM);
-    transfer(PUBLIC_KEY, PUBLIC_KEY_3, 1, ecoItem);
+    // const ecoItem = await ethers.getContractAt('EcoItems', CONTRACT_ADDRESS_ECOITEM);
+    // transfer(PUBLIC_KEY, PUBLIC_KEY_3, 1, ecoItem);
 }
 
 main();

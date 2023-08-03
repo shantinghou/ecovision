@@ -7,6 +7,7 @@ Procedure:
 3. Run the command node scripts/deploy.js in your terminal and check the contract
 address in your test net
 */
+const { ethers } = require("hardhat");
 const PUBLIC_KEY = process.env.PUBLIC_KEY
 async function main() {
     //EAvatar Deployment ------------------------------------------------------
