@@ -1,7 +1,7 @@
 const { ethers } = require("hardhat");
 require("dotenv").config();
 
-const PUBLIC_KEY = process.env.PUBLIC_KEY;
+const ISSUER_PUBLIC_KEY = process.env.ISSUER_PUBLIC_KEY;
 
 async function mintTokens(erc20TokenAddress, recipient, amount) {
     const [issuer] = await ethers.getSigners();
@@ -29,10 +29,10 @@ async function getTokenBalance(erc20TokenAddress, account) {
 
 async function main() {
     // Mint some initial tokens to the bond issuer (deployer)
-    const issuer = await ethers.getSigner(PUBLIC_KEY);
+    const issuer = await ethers.getSigner(ISSUER_PUBLIC_KEY);
     const mintAmount = "50"; // Set the initial balance as a string representing the number of tokens
     const contractAddress = process.env.CONTRACT_ADDRESS_ECOTOKEN;
-     await mintTokens(contractAddress, issuer.address, mintAmount);
+    // await mintTokens(contractAddress, issuer.address, mintAmount);
 
     // Get and display the token balance of the bond issuer (deployer)
      await getTokenBalance(contractAddress, issuer.address);

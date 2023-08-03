@@ -66,6 +66,10 @@ contract EcoItems is ERC721URIStorage, Ownable {
         return _totalSupply;
     }
 
+    function getMintedCount() public view returns(uint256 num){
+        return _tokenIds.current();
+    }
+
     // Function to mint an EWeapon
     function mintEWeaponItem(uint8 speed, uint8 ap_boost, string memory tokenURI) external onlyOwner {
         _tokenIds.increment();

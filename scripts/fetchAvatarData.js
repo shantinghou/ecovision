@@ -11,11 +11,13 @@ require("dotenv").config()
 const { ethers } = require("hardhat");
 const BASE_URI = process.env.BASE_URI
 const CONTRACT_ADDRESS_EAVATAR = process.env.CONTRACT_ADDRESS_EAVATAR
-const PUBLIC_KEY = process.env.PUBLIC_KEY
+const ISSUER_PUBLIC_KEY = process.env.ISSUER_PUBLIC_KEY
 const PUBLIC_KEY_3 = process.env.PUBLIC_KEY_3
 
 async function getMetadata(tokenId){
-    const response = await fetch(" https://ipfs.io/ipfs/" + BASE_URI + "/" + tokenId+".json")
+    const contract = await ethers.getContractAt('EAvatar', CONTRACT_ADDRESS_EAVATAR);
+    const tokenURI = await contract.tokenURI(tokenId);
+    const response = await fetch("https://gateway.pinata.cloud/ipfs/"+tokenURI.substring(7));
     const metadata = await response.json();
     return metadata
 }
@@ -25,8 +27,8 @@ async function getAddressNfts(owner){
     const contract = await ethers.getContractAt('EAvatar', CONTRACT_ADDRESS_EAVATAR);
 
     //get number of and tokenids of wallet
-    console.log("get ids of owner: "+owner)
-    let balance = await contract.balanceOf(owner)
+    console.log("get ids of owner: "+owner);
+    let balance = await contract.balanceOf(owner);
     let totalMinted = await contract.getMintedCount();
     let ids = []
     for (let i = 1; i<=totalMinted; i++){
@@ -56,7 +58,7 @@ async function getAddressNfts(owner){
 
 async function main(){
     console.log('fetching data...')
-    getAddressNfts(PUBLIC_KEY_3);
+    getAddressNfts(ISSUER_PUBLIC_KEY);
 }
 
 main ();
