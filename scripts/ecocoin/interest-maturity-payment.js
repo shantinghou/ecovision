@@ -7,7 +7,7 @@ const ERC20_TOKEN_ADDRESS = "0x6411E89df6680Db716d7fAE4994bD8b4f6623524";
 async function main() {
   const [deployer, user1, user2] = await ethers.getSigners();
 
-  // Load the Oppenheimer contract
+  // Load the EAvatar contract
   const NftContract = await ethers.getContractFactory("EAvatar");
   const nftContract = await NftContract.attach(NFT_CONTRACT_ADDRESS);
 
