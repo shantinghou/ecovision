@@ -1,8 +1,8 @@
 const { ethers } = require("hardhat");
 require("dotenv").config();
 
-const NFT_CONTRACT_ADDRESS = "0x862D7089b0AFA879499754bDD0a82953F95c60A3";
-const ERC20_TOKEN_ADDRESS = "0x6411E89df6680Db716d7fAE4994bD8b4f6623524";
+const NFT_CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS_EAVATAR;
+const ERC20_TOKEN_ADDRESS = process.env.CONTRACT_ADDRESS_ECOTOKEN;
 
 async function main() {
   const [deployer, user1, user2] = await ethers.getSigners();

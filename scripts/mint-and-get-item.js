@@ -15,7 +15,7 @@ const contract = require("../artifacts/contracts/EcoItems.sol/EcoItems.json");
 
 const API_URL = process.env.API_URL;
 const PRIVATE_KEY = process.env.PRIVATE_KEY;
-const contractAddress = "0xab927D39309e0279e361aF2005Ce2B28e0c637b4";
+const contractAddress = process.env.CONTRACT_ADDRESS_ECOITEM;
 
 const web3 = createAlchemyWeb3(API_URL);
 
@@ -97,11 +97,23 @@ async function getItemInformation() {
   }
 }
 
-// Add Weapon and Potion URI
-const weaponURI = "ipfs://QmdEFxCJavd4cvonreyvwr6fhT4SkUg6B367L1juywbXDZ";
-const potionURI = "ipfs://Qmcx4McJxMPUXvXASBXPK96UgGfd4Hc12TpPSrE5PxjCn2";
-
 // Comment out functions as needed
-// mintEWeapons(weaponURI);
-// mintEPotions(potionURI);
- getItemInformation();
+const weaponURIs = [
+    "ipfs://QmcxZRzLfo8EfFzmih4ZqWCM8MWdNvtDEgpbNJY2jU8RkR", // 1
+    "ipfs://Qma71y6Y2EGR2LTyvU5utfpsDYHCQ4tTvhzqnGhu4DYSze" // 2
+  ];
+
+const potionURIs = [
+    "ipfs://QmQDXkF6eMy5xWWQWwX9NJxer7AYwotM4Qmk2wCKZjmvoh", // 1
+    "ipfs://QmdbLGCLxWf3bDspCXfK62RXccsibv7DRPbWXc11eZP65J" // 2
+  ];
+
+for (const weaponURI of weaponURIs) {
+    mintEWeapons(weaponURI);
+  }
+
+for (const potionURI of potionURIs) {
+    mintEPotions(potionURI);
+  }
+
+getItemInformation();

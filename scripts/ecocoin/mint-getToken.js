@@ -31,7 +31,7 @@ async function main() {
     // Mint some initial tokens to the bond issuer (deployer)
     const issuer = await ethers.getSigner(PUBLIC_KEY);
     const mintAmount = "50"; // Set the initial balance as a string representing the number of tokens
-    const contractAddress = "0x444aa7f95b6E4D92EdD61eC393DbB926d9464999";
+    const contractAddress = process.env.CONTRACT_ADDRESS_ECOTOKEN;
      await mintTokens(contractAddress, issuer.address, mintAmount);
 
     // Get and display the token balance of the bond issuer (deployer)
