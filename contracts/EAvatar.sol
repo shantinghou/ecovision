@@ -33,9 +33,6 @@ contract EAvatar is ERC721URIStorage, Ownable {
     }
 
     EBond private Bond;
-
-    mapping(uint256 => string) private charEvolvedURI;
-
     constructor(address bond_issuer) ERC721("EAvatar", "EA") {
         Bond = EBond(bond_issuer, "E-Bond One", 
                         block.timestamp, //issue date - set in deployment
@@ -46,9 +43,6 @@ contract EAvatar is ERC721URIStorage, Ownable {
                         2, //shift
                         1000 // supply
                     );
-        //character evolution
-        charEvolvedURI[0] = "QmSdycEjXZMP74AXkSPtHn4e78PhNL9AAaZiqepKPUB3Nc";
-        charEvolvedURI[1] = "QmVhWY5VXsJvpt8RQqc18yySHFcf6tZ5pqzVfN7p434xfq";
     }
 
     //get bond info
@@ -71,9 +65,10 @@ contract EAvatar is ERC721URIStorage, Ownable {
     }
 
     //update character after maturity
-    function matureCharacters() external onlyOwner() {
+    function matureCharacter(uint256 tokenId, string memory inactiveURI) external onlyOwner() {
         require(isBondMatured());
-        setBaseURI(inactiveBaseURI);
+        _setTokenURI(tokenId, inactiveURI);
+        idToMetadata[tokenId].inactive = true;
     }
 
     //check if interest need to pay !!!!!
@@ -115,7 +110,6 @@ contract EAvatar is ERC721URIStorage, Ownable {
     //character data
     struct AvatarChar {
         string name;
-        string characterURI;
         uint8 hp;
         uint8 ap;
         uint8 level; //0...10...20...30
@@ -124,6 +118,7 @@ contract EAvatar is ERC721URIStorage, Ownable {
     //nft metadata
     struct EMetadata {
         uint256 tokenId;
+        bool inactive;
         string name;
         uint256 mintedAt;
         uint256 listing_price;
@@ -131,39 +126,17 @@ contract EAvatar is ERC721URIStorage, Ownable {
         address ownerId;
     }
 
-    //subject to change
-    uint8 private evolutions = 1;
-    //store metadata of ALLLLLL nfts on collection
+    //store metadata of all nfts on collection
     mapping(uint256 => EMetadata) private idToMetadata;
     
     event nftItemCreated (uint256 tokenId, address owner, uint256 price);
-
-    //for metadata URI --------------------------------------------------------
-    string private baseURI = "QmVfWkyhFiMha7D5AddRP8FMT1yvZyGCZsR9pW1t81AXgm";
-    string private inactiveBaseURI = "";
-    string private charURI = charEvolvedURI[0];
-    string private inactiveCharURI = "";
-    
-    //onlyOwner can change 
-    function setBaseURI(string memory newURI) public onlyOwner() {
-        baseURI = newURI;
-    }
-    function getBaseURI() public view returns (string memory){
-        return baseURI;
-    }
-    function setInactiveBaseURI(string memory newURI) public onlyOwner() {
-        inactiveBaseURI = newURI;
-    }
-    function changeCharURI(uint8 level, string memory newURI) public onlyOwner() {
-        charEvolvedURI[level] = newURI;
-    }
 
     function getLatestId () public view returns (uint256){
         return _tokenIds.current();
     }
     //MINT NFT-----------------------------------------------------------------
     //string memory tokenURI should resolve to a JSON document that describes the NFT's metadata.
-    function mintNFT(address recipient, uint256 price)
+    function mintNFT(address recipient, uint256 price, string memory tokenURI)
         public onlyOwner
         returns (uint256)
     {
@@ -175,6 +148,7 @@ contract EAvatar is ERC721URIStorage, Ownable {
 
         uint256 tokenId = _tokenIds.current();
         _safeMint(recipient, tokenId);
+        _setTokenURI(tokenId, tokenURI);
         createNFTitem(tokenId, price, recipient);
 
         return tokenId;
@@ -183,10 +157,11 @@ contract EAvatar is ERC721URIStorage, Ownable {
     function createNFTitem(uint256 tokenId, uint256 price, address owner) internal {
         idToMetadata[tokenId] = EMetadata(
             tokenId, 
+            false,
             "", 
             block.timestamp, 
             price, 
-            generateNewCharacter(tokenId), 
+            (AvatarChar("", 10, 10, 0, 0)), 
             owner
         );
 
@@ -195,18 +170,6 @@ contract EAvatar is ERC721URIStorage, Ownable {
             owner,
             price
         );
-    }
-
-    function generateNewCharacter(uint256 tokenId) internal view returns(AvatarChar memory newChar){
-        //set basic stats
-        return (AvatarChar(
-            "", 
-            string.concat(charEvolvedURI[0], Strings.toString(tokenId)), 
-            10, 
-            10, 
-            0, 
-            0
-        ));
     }
 
     // ADJUST METADATA ---------------------------------------------------------

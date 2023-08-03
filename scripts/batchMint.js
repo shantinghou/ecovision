@@ -19,6 +19,10 @@ const PRIVATE_KEY = process.env.PRIVATE_KEY;
 const CONTRACT_ADDRESS_EAVATAR = process.env.CONTRACT_ADDRESS_EAVATAR
 const CONTRACT_ADDRESS_ECOITEM = process.env.CONTRACT_ADDRESS_ECOITEM
 
+const avatarCollection = ["ipfs://QmWKZLKikK73pPcX6nskzaLYX2HgJdPKynrmdbACZaMKeA",
+                       "ipfs://QmRXHao4ftgJL2GXBERUdTS5dRsHsHEt3P2dk6idTnX2WV",
+                       "ipfs://QmPZrEikLLjP7VQqNgnFxS7U8TMErmvxFxArkB45rn1haz",
+                       "ipfs://QmY4RBE4cTZJyjUwApQabcDiWq6JfY6byrQ7nKZatxz34n"]
 const eAvatarContract = require("../artifacts/contracts/EAvatar.sol/EAvatar.json")
 
 async function batchMintEAvatar(ownerAddress, contractAddress, numToMint) {
@@ -27,17 +31,17 @@ async function batchMintEAvatar(ownerAddress, contractAddress, numToMint) {
   const avatarContract = new ethers.Contract(contractAddress, eAvatarContract.abi, wallet);
 
   const minted = []
-  for (let i = 1; i < numToMint; i++) {
+  for (let i = 0; i < numToMint; i++) {
     const price = 100000; //due to green bond
-    await avatarContract.mintNFT(ownerAddress, price);
-    minted.push(i)
+    await avatarContract.mintNFT(ownerAddress, price, avatarCollection[i]);
+    minted.push(i+1)
   }
   console.log(minted);
 }
 
 async function main(){
   const ownerAddress = PUBLIC_KEY; 
-  const numToMint = 5; 
+  const numToMint = 4; 
   batchMintEAvatar(ownerAddress, CONTRACT_ADDRESS_EAVATAR, numToMint)
     .then(() => console.log("Batch minting completed."))
     .catch((error) => console.error("Error during batch minting:", error));

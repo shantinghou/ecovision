@@ -3,7 +3,7 @@ pragma solidity ^0.8.18;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
-contract MyToken is ERC20 {
+contract EcoToken is ERC20 {
     address public admin;
 
     constructor() ERC20("EcoToken", "ETK") {
