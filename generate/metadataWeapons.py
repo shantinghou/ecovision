@@ -9,7 +9,7 @@ data = json.load(f)
 # Changes this IMAGES_BASE_URL to yours 
 # IMAGES_BASE_URL = "https://gateway.pinata.cloud/ipfs/Qmb86L8mUphwJGzLPwXNTRiK1S4scBdj9cc2Sev3s8uLiB/"
 PROJECT_NAME = "EcoItems"
-
+IMAGES_BASE_URI = "ipfs://"
 def getAttribute(key, value):
     return {
         "trait_type": key,
@@ -18,7 +18,7 @@ def getAttribute(key, value):
 for i in data:
     token_id = i['tokenId']
     token = {
-        # "image": IMAGES_BASE_URL + str(token_id) + '.png',
+        "image": IMAGES_BASE_URI,
         "tokenId": token_id,
         "name": PROJECT_NAME + ' ' + str(token_id),
         "attributes": []
