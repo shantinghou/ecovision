@@ -1,18 +1,19 @@
 {
+    "image": "ipfs://QmeWcsz98YSYGqXUgCurecphQTMNFXRCS5EmX28K6ykuJd",
     "tokenId": 4,
     "name": "E-Avatar 4",
     "attributes": [
         {
             "trait_type": "EyeLeftC",
-            "value": "Red"
+            "value": "Blue"
         },
         {
             "trait_type": "EyeLeftE",
-            "value": "Round"
+            "value": "Closed"
         },
         {
             "trait_type": "EyeRightC",
-            "value": "Black"
+            "value": "Blue"
         },
         {
             "trait_type": "EyeRightE",
@@ -20,7 +21,7 @@
         },
         {
             "trait_type": "Element",
-            "value": "Air"
+            "value": "Fire"
         },
         {
             "trait_type": "Type",

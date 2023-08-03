@@ -1,0 +1,23 @@
+{
+    "image": "ipfs://QmTMhAhzadF5uG3MyFmj5x285GrDZcKwMQw1XzbK71VAZL",
+    "tokenId": 1,
+    "name": "EcoItems 1",
+    "attributes": [
+        {
+            "trait_type": "Type",
+            "value": "Sword"
+        },
+        {
+            "trait_type": "HpBoost",
+            "value": "None"
+        },
+        {
+            "trait_type": "ApBoost",
+            "value": "None"
+        },
+        {
+            "trait_type": "SpeedBoost",
+            "value": "20"
+        }
+    ]
+}

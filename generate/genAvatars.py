@@ -30,7 +30,7 @@ mouth_weights = [25, 10, 15, 50]
 
 # Generate Traits
 
-TOTAL_IMAGES = 10 # Number of random unique images we want to generate
+TOTAL_IMAGES = 4 # Number of random unique images we want to generate
 
 all_images = [] 
 

@@ -1,10 +1,11 @@
 {
+    "image": "ipfs://QmTbJWaWChenEYAQEpUZiamFgA9WRyRBQGJ3iANcgKFZtP",
     "tokenId": 3,
     "name": "E-Avatar 3",
     "attributes": [
         {
             "trait_type": "EyeLeftC",
-            "value": "Green"
+            "value": "Black"
         },
         {
             "trait_type": "EyeLeftE",
@@ -12,23 +13,23 @@
         },
         {
             "trait_type": "EyeRightC",
-            "value": "Blue"
+            "value": "Black"
         },
         {
             "trait_type": "EyeRightE",
-            "value": "Oval"
+            "value": "Round"
         },
         {
             "trait_type": "Element",
-            "value": "Fire"
+            "value": "Earth"
         },
         {
             "trait_type": "Type",
-            "value": "Original"
+            "value": "Calm"
         },
         {
             "trait_type": "Blush",
-            "value": "Original"
+            "value": "Calm"
         }
     ]
 }

@@ -1,0 +1,16 @@
+[
+    {
+        "Type": "Hellebore",
+        "HpBoost": "20",
+        "ApBoost": "20",
+        "SpeedBoost": "90",
+        "tokenId": 1
+    },
+    {
+        "Type": "Bioglow",
+        "HpBoost": "50",
+        "ApBoost": "None",
+        "SpeedBoost": "20",
+        "tokenId": 2
+    }
+]

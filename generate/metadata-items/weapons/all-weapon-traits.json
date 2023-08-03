@@ -1,0 +1,16 @@
+[
+    {
+        "Type": "Sword",
+        "HpBoost": "None",
+        "ApBoost": "None",
+        "SpeedBoost": "20",
+        "tokenId": 1
+    },
+    {
+        "Type": "Sabre",
+        "HpBoost": "40",
+        "ApBoost": "None",
+        "SpeedBoost": "None",
+        "tokenId": 2
+    }
+]

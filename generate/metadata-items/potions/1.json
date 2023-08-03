@@ -1,0 +1,23 @@
+{
+    "image": "ipfs://QmW34q1Ww8BuTy1CGVQCsVssNSUKQxWKY4v75PjaWbsDts",
+    "tokenId": 1,
+    "name": "EcoItems 1",
+    "attributes": [
+        {
+            "trait_type": "Type",
+            "value": "Hellebore"
+        },
+        {
+            "trait_type": "HpBoost",
+            "value": "20"
+        },
+        {
+            "trait_type": "ApBoost",
+            "value": "20"
+        },
+        {
+            "trait_type": "SpeedBoost",
+            "value": "90"
+        }
+    ]
+}

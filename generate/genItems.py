@@ -24,7 +24,7 @@ potionType = ["Jewelweed", "Cactus", "Groot", "Bioglow", "Hellebore", "Beanstalk
 potionType_weights = [17, 17, 16, 13, 13, 11, 11, 1, 1]
 
 # Generate Potion Traits
-TOTAL_POTIONS = 5 # Number of random unique potions we want to generate
+TOTAL_POTIONS = 2 # Number of random unique potions we want to generate
 all_potions = [] 
 def create_new_potion():
     new_potion = {} 
@@ -52,7 +52,7 @@ weaponType_weights = [15, 15, 15, 15, 12, 12, 7, 7, 1, 1]
 
 
 # Generate Weapon Traits
-TOTAL_WEAPONS = 5 # Number of random unique potions we want to generate
+TOTAL_WEAPONS = 2 # Number of random unique potions we want to generate
 all_weapons = [] 
 def create_new_weapon():
     new_weapon = {} 

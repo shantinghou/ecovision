@@ -1,0 +1,23 @@
+{
+    "image": "ipfs://QmeG1Tq2LomFpik8zqmLqJioXGiZg5P2wXycXf6z4JoFwf",
+    "tokenId": 2,
+    "name": "EcoItems 2",
+    "attributes": [
+        {
+            "trait_type": "Type",
+            "value": "Sabre"
+        },
+        {
+            "trait_type": "HpBoost",
+            "value": "40"
+        },
+        {
+            "trait_type": "ApBoost",
+            "value": "None"
+        },
+        {
+            "trait_type": "SpeedBoost",
+            "value": "None"
+        }
+    ]
+}

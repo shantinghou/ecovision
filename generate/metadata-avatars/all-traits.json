@@ -1,102 +1,42 @@
 [
     {
-        "EyeLeftC": "Red",
-        "EyeLeftE": "Round",
-        "EyeRightC": "Red",
+        "EyeLeftC": "Blue",
+        "EyeLeftE": "Wink",
+        "EyeRightC": "Black",
         "EyeRightE": "Oval",
         "Element": "Earth",
-        "Type": "Calm",
+        "Type": "Original",
         "Blush": "Original",
         "tokenId": 1
     },
     {
         "EyeLeftC": "Black",
         "EyeLeftE": "Oval",
-        "EyeRightC": "Black",
-        "EyeRightE": "Oval",
-        "Element": "Water",
+        "EyeRightC": "Blue",
+        "EyeRightE": "Round",
+        "Element": "Fire",
         "Type": "Original",
-        "Blush": "Calm",
+        "Blush": "Elegant",
         "tokenId": 2
     },
     {
-        "EyeLeftC": "Green",
+        "EyeLeftC": "Black",
         "EyeLeftE": "Oval",
-        "EyeRightC": "Blue",
-        "EyeRightE": "Oval",
-        "Element": "Fire",
-        "Type": "Original",
-        "Blush": "Original",
-        "tokenId": 3
-    },
-    {
-        "EyeLeftC": "Red",
-        "EyeLeftE": "Round",
         "EyeRightC": "Black",
-        "EyeRightE": "Closed",
-        "Element": "Air",
-        "Type": "Original",
+        "EyeRightE": "Round",
+        "Element": "Earth",
+        "Type": "Calm",
         "Blush": "Calm",
-        "tokenId": 4
+        "tokenId": 3
     },
     {
         "EyeLeftC": "Blue",
         "EyeLeftE": "Closed",
-        "EyeRightC": "Black",
-        "EyeRightE": "Round",
-        "Element": "Earth",
-        "Type": "Original",
-        "Blush": "Original",
-        "tokenId": 5
-    },
-    {
-        "EyeLeftC": "Red",
-        "EyeLeftE": "Wink",
-        "EyeRightC": "Red",
-        "EyeRightE": "Round",
-        "Element": "Earth",
-        "Type": "Calm",
-        "Blush": "Calm",
-        "tokenId": 6
-    },
-    {
-        "EyeLeftC": "Blue",
-        "EyeLeftE": "Oval",
-        "EyeRightC": "Black",
-        "EyeRightE": "Round",
-        "Element": "Air",
-        "Type": "Calm",
-        "Blush": "Calm",
-        "tokenId": 7
-    },
-    {
-        "EyeLeftC": "Green",
-        "EyeLeftE": "Oval",
-        "EyeRightC": "Green",
-        "EyeRightE": "Round",
-        "Element": "Earth",
-        "Type": "Original",
-        "Blush": "Elegant",
-        "tokenId": 8
-    },
-    {
-        "EyeLeftC": "Black",
-        "EyeLeftE": "Oval",
-        "EyeRightC": "Green",
-        "EyeRightE": "Oval",
+        "EyeRightC": "Blue",
+        "EyeRightE": "Closed",
         "Element": "Fire",
         "Type": "Original",
         "Blush": "Calm",
-        "tokenId": 9
-    },
-    {
-        "EyeLeftC": "Black",
-        "EyeLeftE": "Oval",
-        "EyeRightC": "Green",
-        "EyeRightE": "Round",
-        "Element": "Water",
-        "Type": "Calm",
-        "Blush": "Elegant",
-        "tokenId": 10
+        "tokenId": 4
     }
 ]
