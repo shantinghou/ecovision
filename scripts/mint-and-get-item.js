@@ -109,14 +109,14 @@ const potionURIs = [
   ];
 
 async function main(){
-    /*
+  
     for (const weaponURI of weaponURIs) {
         await mintEWeapons(weaponURI);
     }
-    */
-    for (const potionURI of potionURIs) {
-        await mintEPotions(potionURI);
-    }
+    
+    // for (const potionURI of potionURIs) {
+    //     await mintEPotions(potionURI);
+    // }
     // getItemInformation();
   }
 main()

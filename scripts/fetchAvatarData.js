@@ -9,9 +9,8 @@ Procedure:
 */
 require("dotenv").config()
 const { ethers } = require("hardhat");
-const BASE_URI = process.env.BASE_URI
 const CONTRACT_ADDRESS_EAVATAR = process.env.CONTRACT_ADDRESS_EAVATAR
-const ISSUER_PUBLIC_KEY = process.env.ISSUER_PUBLIC_KEY
+const PUBLIC_KEY = process.env.PUBLIC_KEY
 const PUBLIC_KEY_3 = process.env.PUBLIC_KEY_3
 
 async function getMetadata(tokenId){
@@ -42,24 +41,27 @@ async function getAddressNfts(owner){
     //get metadata of each id
     let metadatas = []
     let ipfs = []
+    let attributes = []
     for (let i = 1; i < ids.length; i++){
         let metadata = await contract.getMetadata(ids[i]);
         metadatas.push(metadata);
         
-        let getURI = await contract.tokenURI(ids[i])
-        let ipfsData = await contract.tokenURI(getURI)
+        let ipfsData = await getMetadata(ids[i])
         ipfs.push(ipfsData)
+        attributes.push(ipfsData.attributes)
     }
     console.log("get contract stored metadatas...")
     console.log(metadatas);
     console.log("get ipfs stored metadatas...")
     console.log(ipfs)
+    console.log("get attributes in ipfs...")
+    console.log(attributes)
     
 }
 
 async function main(){
     console.log('fetching data...')
-    getAddressNfts(PUBLIC_KEY);
+    getAddressNfts(PUBLIC_KEY_3);
 }
 
 main ();
