@@ -14,7 +14,7 @@ const { createAlchemyWeb3 } = require("@alch/alchemy-web3");
 const contract = require("../artifacts/contracts/EcoItems.sol/EcoItems.json");
 
 const API_URL = process.env.API_URL;
-const PRIVATE_KEY = process.env.PRIVATE_KEY;
+const ISSUER_PRIVATE_KEY = process.env.ISSUER_PRIVATE_KEY;
 const contractAddress = process.env.CONTRACT_ADDRESS_ECOITEM;
 
 const web3 = createAlchemyWeb3(API_URL);
@@ -22,7 +22,7 @@ const web3 = createAlchemyWeb3(API_URL);
 async function mintEWeapons(weaponURI) {
   try {
     const provider = new ethers.providers.JsonRpcProvider(API_URL);
-    const signer = new ethers.Wallet(PRIVATE_KEY, provider);
+    const signer = new ethers.Wallet(ISSUER_PRIVATE_KEY, provider);
     const ecoContract = new ethers.Contract(contractAddress, contract.abi, signer);
 
     // Test minting an EWeapon item
@@ -39,7 +39,7 @@ async function mintEWeapons(weaponURI) {
 async function mintEPotions(potionURI) {
   try {
     const provider = new ethers.providers.JsonRpcProvider(API_URL);
-    const signer = new ethers.Wallet(PRIVATE_KEY, provider);
+    const signer = new ethers.Wallet(ISSUER_PRIVATE_KEY, provider);
     const ecoContract = new ethers.Contract(contractAddress, contract.abi, signer);
 
     // Test minting an EPotion item
@@ -108,12 +108,15 @@ const potionURIs = [
     "ipfs://QmdbLGCLxWf3bDspCXfK62RXccsibv7DRPbWXc11eZP65J" // 2
   ];
 
-for (const weaponURI of weaponURIs) {
-    mintEWeapons(weaponURI);
+async function main(){
+    /*
+    for (const weaponURI of weaponURIs) {
+        await mintEWeapons(weaponURI);
+    }
+    */
+    for (const potionURI of potionURIs) {
+        await mintEPotions(potionURI);
+    }
+    // getItemInformation();
   }
-
-for (const potionURI of potionURIs) {
-    mintEPotions(potionURI);
-  }
-
-getItemInformation();
+main()

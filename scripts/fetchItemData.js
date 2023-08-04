@@ -9,7 +9,7 @@ Procedure:
 */
 require("dotenv").config()
 const { ethers } = require("hardhat");
-const PUBLIC_KEY = process.env.PUBLIC_KEY;
+const ISSUER_PUBLIC_KEY = process.env.ISSUER_PUBLIC_KEY;
 const PUBLIC_KEY_2 = process.env.PUBLIC_KEY_2;
 const PUBLIC_KEY_3 = process.env.PUBLIC_KEY_3;
 
@@ -25,8 +25,15 @@ async function getMetadata(tokenId){
     const response = await fetch("https://gateway.pinata.cloud/ipfs/"+tokenURI.substring(7));
     const metadata = await response.json();
     console.log(metadata);
-
-    let contractOwnerBalances = await contract.balanceOf(PUBLIC_KEY_3);
-    console.log("balance - " + contractOwnerBalances);
 }
-getMetadata ("1");
+
+async function main() {
+    const contract = await ethers.getContractAt('EcoItems', contractAddress);
+    let contractOwnerBalances = await contract.balanceOf(ISSUER_PUBLIC_KEY);
+    console.log("Balance:" + contractOwnerBalances);
+    for (let i = 1; i <= contractOwnerBalances; i++){
+        console.log("Getting info about EcoItem " + i);
+        await getMetadata (i);
+    }
+}
+main()

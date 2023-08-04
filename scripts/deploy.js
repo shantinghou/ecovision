@@ -8,13 +8,13 @@ Procedure:
 address in your test net
 */
 const { ethers } = require("hardhat");
-const PUBLIC_KEY = process.env.PUBLIC_KEY
+const ISSUER_PUBLIC_KEY = process.env.ISSUER_PUBLIC_KEY
 async function main() {
   
     //EAvatar Deployment ------------------------------------------------------
     const EAvatar = await ethers.getContractFactory("EAvatar")
     // Start deployment, returning a promise that resolves to a contract object
-    const eAvatar = await EAvatar.deploy(PUBLIC_KEY)
+    const eAvatar = await EAvatar.deploy(ISSUER_PUBLIC_KEY)
     await eAvatar.deployed()
     console.log("EAvatar deployed to address:", eAvatar.address)
     //Eco Item Deployment ------------------------------------------------------

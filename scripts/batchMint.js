@@ -14,10 +14,9 @@ require("dotenv").config();
 const { ethers } = require("hardhat");
 
 const API_URL = process.env.API_URL;
-const PUBLIC_KEY = process.env.PUBLIC_KEY;
-const PRIVATE_KEY = process.env.PRIVATE_KEY;
+const ISSUER_PUBLIC_KEY = process.env.ISSUER_PUBLIC_KEY;
+const ISSUER_PRIVATE_KEY = process.env.ISSUER_PRIVATE_KEY;
 const CONTRACT_ADDRESS_EAVATAR = process.env.CONTRACT_ADDRESS_EAVATAR
-const CONTRACT_ADDRESS_ECOITEM = process.env.CONTRACT_ADDRESS_ECOITEM
 
 const avatarCollection = ["ipfs://QmWKZLKikK73pPcX6nskzaLYX2HgJdPKynrmdbACZaMKeA",
                        "ipfs://QmRXHao4ftgJL2GXBERUdTS5dRsHsHEt3P2dk6idTnX2WV",
@@ -27,20 +26,20 @@ const eAvatarContract = require("../artifacts/contracts/EAvatar.sol/EAvatar.json
 
 async function batchMintEAvatar(ownerAddress, contractAddress, numToMint) {
   const provider = new ethers.providers.JsonRpcProvider(API_URL);
-  const wallet = new ethers.Wallet(PRIVATE_KEY, provider);
+  const wallet = new ethers.Wallet(ISSUER_PRIVATE_KEY, provider);
   const avatarContract = new ethers.Contract(contractAddress, eAvatarContract.abi, wallet);
 
   const minted = []
   for (let i = 0; i < numToMint; i++) {
     const price = 100000; //due to green bond
     await avatarContract.mintNFT(ownerAddress, price, avatarCollection[i]);
-    minted.push(i+1)
+    minted.push(i+1);
   }
   console.log(minted);
 }
 
 async function main(){
-  const ownerAddress = PUBLIC_KEY; 
+  const ownerAddress = ISSUER_PUBLIC_KEY; 
   const numToMint = 4; 
   batchMintEAvatar(ownerAddress, CONTRACT_ADDRESS_EAVATAR, numToMint)
     .then(() => console.log("Batch minting completed."))
