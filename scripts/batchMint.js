@@ -14,7 +14,7 @@ require("dotenv").config();
 const { ethers } = require("hardhat");
 
 const API_URL = process.env.API_URL;
-const PUBLIC_KEY = process.env.PUBLIC_KEY;
+const ISSUER_PUBLIC_KEY = process.env.ISSUER_PUBLIC_KEY;
 const ISSUER_PRIVATE_KEY = process.env.ISSUER_PRIVATE_KEY;
 const CONTRACT_ADDRESS_EAVATAR = process.env.CONTRACT_ADDRESS_EAVATAR
 
@@ -39,7 +39,7 @@ async function batchMintEAvatar(ownerAddress, contractAddress, numToMint) {
 }
 
 async function main(){
-  const ownerAddress = PUBLIC_KEY; 
+  const ownerAddress = ISSUER_PUBLIC_KEY; 
   const numToMint = 4; 
   batchMintEAvatar(ownerAddress, CONTRACT_ADDRESS_EAVATAR, numToMint)
     .then(() => console.log("Batch minting completed."))

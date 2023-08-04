@@ -193,7 +193,7 @@ contract EAvatar is ERC721URIStorage, Ownable {
         return (idToMetadata[tokenId].character.level);
     }
 
-    function transfer(address from, address to, uint256 tokenId) public {
+    function transferAvatar(address from, address to, uint256 tokenId) public {
         idToMetadata[tokenId].ownerId = to;
         safeTransferFrom(from, to, tokenId);
     }

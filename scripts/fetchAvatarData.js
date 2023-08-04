@@ -10,8 +10,8 @@ Procedure:
 require("dotenv").config()
 const { ethers } = require("hardhat");
 const CONTRACT_ADDRESS_EAVATAR = process.env.CONTRACT_ADDRESS_EAVATAR
+const ISSUER_PUBLIC_KEY = process.env.ISSUER_PUBLIC_KEY
 const PUBLIC_KEY = process.env.PUBLIC_KEY
-const PUBLIC_KEY_3 = process.env.PUBLIC_KEY_3
 
 async function getMetadata(tokenId){
     const contract = await ethers.getContractAt('EAvatar', CONTRACT_ADDRESS_EAVATAR);
@@ -29,9 +29,11 @@ async function getAddressNfts(owner){
     console.log("get ids of owner: "+owner);
     let balance = await contract.balanceOf(owner);
     let totalMinted = await contract.getMintedCount();
+    console.log("Total Minted:" + totalMinted);
     let ids = []
     for (let i = 1; i<=totalMinted; i++){
         let metadata = await contract.getMetadata(i);
+        console.log(metadata);
         if (owner == metadata.ownerId){
             ids.push(i)
         }
@@ -61,7 +63,7 @@ async function getAddressNfts(owner){
 
 async function main(){
     console.log('fetching data...')
-    getAddressNfts(PUBLIC_KEY_3);
+    getAddressNfts(PUBLIC_KEY);
 }
 
 main ();

@@ -8,12 +8,15 @@ Procedure:
 3. Run the command node scripts/transfer.js in your terminal and check for the
 transactions under the contract address or your wallet address in the Sepolia test net
 */
+const { createAlchemyWeb3 } = require("@alch/alchemy-web3");
 const { ethers } = require("hardhat");
 require("dotenv").config()
 const CONTRACT_ADDRESS_EAVATAR = process.env.CONTRACT_ADDRESS_EAVATAR
 const CONTRACT_ADDRESS_ECOITEM = process.env.CONTRACT_ADDRESS_ECOITEM
+const ISSUER_PUBLIC_KEY = process.env.ISSUER_PUBLIC_KEY
 const PUBLIC_KEY = process.env.PUBLIC_KEY
-const PUBLIC_KEY_3 = process.env.PUBLIC_KEY_3
+const API_URL  = process.env.API_URL
+const web3 = createAlchemyWeb3(API_URL);
 
 async function transfer(from, to, tokenId, contract){
     // Adjust as needed
@@ -23,7 +26,7 @@ async function transfer(from, to, tokenId, contract){
     console.log(`Owner of #1: ${oldOwner}`);
     console.log(`Transferring ${symbol}#1 from collector ${from} to 
     another collector ${to} using contractOwner wallet...`);
-
+    /*
     // Comment this segment out if the contract owner wants to send the NFT
     console.log(`Approving contractOwner to spend collector ${symbol}#${1}...`);
     // Creates a new instance of the contract connected to the collector
@@ -32,11 +35,12 @@ async function transfer(from, to, tokenId, contract){
     await collectorContract.approve(to, tokenId);
     console.log(`contractOwner ${to} has been approved to 
     spend collector ${from} ${symbol}#${1}\n`);
-
+    */
     // Calling the safeTransferFrom() using the contractOwner instance
     // Transfer the NFT from the first address to the second; adjust as needed
-    const transaction = await contract["safeTransferFrom(address,address,uint256)"]
-    (from, to, tokenId,{gasLimit: 100000, gasPrice: 20000000, nonce: undefined,});
+    const nonce = await web3.eth.getTransactionCount(ISSUER_PUBLIC_KEY, "latest");
+    const transaction = await contract["transferAvatar(address,address,uint256)"]
+    (from, to, tokenId,{gasLimit: 100000, gasPrice: 500000000, nonce: nonce,});
     const t = await transaction;
     console.log(t);
 
@@ -44,7 +48,7 @@ async function transfer(from, to, tokenId, contract){
 async function main(){
     //transfer eAvatar
     const eAvatar = await ethers.getContractAt('EAvatar', CONTRACT_ADDRESS_EAVATAR);
-    transfer(PUBLIC_KEY, PUBLIC_KEY_3, 1, eAvatar);
+    transfer(ISSUER_PUBLIC_KEY, PUBLIC_KEY, 1, eAvatar);
 
     //transfer ecoItem
     // const ecoItem = await ethers.getContractAt('EcoItems', CONTRACT_ADDRESS_ECOITEM);
