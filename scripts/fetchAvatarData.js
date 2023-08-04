@@ -56,7 +56,7 @@ async function getAddressNfts(owner){
 
 async function main(){
     console.log('fetching data...')
-    getAddressNfts(PUBLIC_KEY_3);
+    getAddressNfts(PUBLIC_KEY);
 }
 
 main ();
